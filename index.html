@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');</script>
+    <!-- <script>
+        window.nodeRequire = require;
+        delete window.require;
+        delete window.exports;
+        delete window.module;
+    </script>
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script> -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin=" anonymous">
+    <script
+        src="node_modules/popper.js/dist/umd/popper.min.js">require(node_modules / popper.js / dist / umd / popper.min.js)</script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <style type="text/css">
+        a:link {
+            text-decoration: none;
+        }
+
+        a:active {
+            text-decoration: none
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        a:visited {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="display-flex">
+        <div class="div-sidebar">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical"
+                style="width: 280px;">
+                <a class="item-sidebar active" id="v-pills-today-tab" data-toggle="pill" href="#v-pills-today"
+                    role="tab" aria-controls="v-pills-today" aria-selected="true">
+                    Today
+                </a>
+                <a class="item-sidebar" id="v-pills-scheduled-tab" data-toggle="pill" href="#v-pills-scheduled"
+                    role="tab" aria-controls="v-pills-scheduled" aria-selected="false">
+                    Scheduled
+                </a>
+                <a class="item-sidebar" id="v-pills-completed-tab" data-toggle="pill" href="#v-pills-completed"
+                    role="tab" aria-controls="v-pills-completed" aria-selected="false">
+                    Completed
+                </a>
+                <a class="item-sidebar" id="v-pills-allplans-tab" data-toggle="pill" href="#v-pills-allplans" role="tab"
+                    aria-controls="v-pills-allplans" aria-selected="false">
+                    All Plans
+                </a>
+                <a class="item-sidebar" id="v-pills-about-tab" data-toggle="pill" href="#v-pills-about" role="tab"
+                    aria-controls="v-pills-about" aria-selected="false">
+                    About
+                </a>
+            </div>
+        </div>
+        <div class="div-content">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-today" role="tabpanel"
+                    aria-labelledby="v-pills-today-tab">
+                    <div class="head-title">Today</div>
+                    <div class="head-date">2020年8月16日 星期日</div>
+                    <div id="table-filter" style="margin-right: 16px;">
+                        <div class="dropdown" id="myDropdown"
+                            style="float:right; margin-top: 16px; margin-bottom: 8px;">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Dropdown button
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="javascript:onClickDropdown('male')">Male</a>
+                                <a class="dropdown-item" href="javascript:onClickDropdown('female')">Female</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="table-data" style="margin-top: 8px; margin-left: 16px; margin-right: 16px;">
+                        <table class="table table-hover" style="border:1px solid; border-radius: 25px;">
+                            <thead class="thead-dark" style="padding-right: 16px;">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">First</th>
+                                    <th scope="col">Last</th>
+                                    <th scope="col">Handle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>@twitter</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-scheduled" role="tabpanel"
+                    aria-labelledby="v-pills-scheduled-tab">
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-completed" role="tabpanel"
+                    aria-labelledby="v-pills-completed-tab">
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-allplans" role="tabpanel" aria-labelledby="v-pills-allplans-tab">
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-about" role="tabpanel" aria-labelledby="v-pills-about-tab">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="index.js"></script>
+<script>
+    // $(function () {
+    //     $('#myTab li:last-child a').tab('show')
+    //     console.assert(a)
+    // })
+
+    // $('#v-pills-today-tab a').on('click', function (e) {
+    //     console.assert("qqqqqqqq")
+    //     e.preventDefault()
+    //     // $(this).tab('show')
+    // })
+    function onClickDropdown(str) {
+        console.log(str)
+        $('#dropdownMenuButton').html(str)
+    }
+
+    $('#v-pills-today-tab').click({ str: 'today' }, testFun);
+    $('#v-pills-scheduled-tab').click({ str: 'scheduled' }, testFun);
+    $('#v-pills-completed-tab').click({ str: 'completed' }, testFun);
+    $('#v-pills-allplans-tab').click({ str: 'allplans' }, testFun);
+    $('#v-pills-about-tab').click({ str: 'about' }, testFun);
+</script>
+
+</html>
