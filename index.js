@@ -1,4 +1,5 @@
 function testFun(event, str) {
+    return
     switch (event.data.str) {
         case "today":
             // var today_page = document.getElementById("v-pills-today")

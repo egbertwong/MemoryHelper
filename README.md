@@ -98,7 +98,7 @@ Database use
 
 
 
-## Unfinished_Plans
+## Scheduled
 
 | ID        | Type   | Length | Allow Null | Description              |
 | --------- | ------ | ------ | ---------- | ------------------------ |
@@ -110,7 +110,7 @@ Database use
 
 
 
-## Finished_Plans
+## Completed
 
 | ID        | Type   | Length | Allow Null | Description      |
 | --------- | ------ | ------ | ---------- | ---------------- |
