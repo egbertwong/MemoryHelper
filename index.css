@@ -135,7 +135,7 @@
   overflow: hidden;
   height: 45px;
   border-radius: 5px;
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(241, 242, 243);
   color: rgb(0, 0, 0)
 }
 
@@ -186,8 +186,43 @@
   background-color: rgb(245, 245, 245);
 }
 
+.detail-item {
+  margin: 8px;
+  padding-left: 8px;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  height: 45px;
+  border: 1px solid  rgb(237, 237, 237);
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0)
+}
+
+.detail-item:hover {
+  margin: 8px;
+  padding-left: 8px;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  height: 45px;
+  border: 1px solid  rgb(237, 237, 237);
+  border-radius: 5px;
+  background-color: rgb(250, 251, 252);
+  color: rgb(0, 0, 0)
+}
+
 .detail-foot {
   bottom: 0;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .detail-status {}

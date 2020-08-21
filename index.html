@@ -65,7 +65,7 @@
                 </a>
             </div>
         </div>
-        <div class="div-content">
+        <div class="div-content noselect">
             <div class="tab-content" id="v-pills-tabContent" style="flex-grow: 1">
                 <div class="tab-pane fade show active" id="v-pills-today" role="tabpanel"
                     aria-labelledby="v-pills-today-tab" style="display: flex; flex-direction: column;">
@@ -90,16 +90,9 @@
                             </div>
                         </div>
 
-                        <div class="table-area" id="table-data">
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;" onclick="chooseItem('choose')">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;" onclick="clickItem('yes')">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
+                        <div class="table-area noselect" id="table-data">
+                            <div class="div-list-item" onclick="chooseItem('yes')">
+                                <img src="./res/radio-false.svg" style="align-items: center;" onclick="finishToday('choose')">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
                                     <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
@@ -112,78 +105,6 @@
                                     <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-                            <div class="div-list-item">
-                                <img src="./res/radio-false.svg" style="align-items: center;">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
-                            </div>
-
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
@@ -226,6 +147,7 @@
                                     <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
+
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
@@ -261,14 +183,18 @@
                 </div>
             </div>
         </div>
-        <div class="div-details" id="today-details">
+        <div class="div-details noselect" id="today-details">
             <p class="detail-name">
                 微积分第一讲极限与极限定义
                 <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                 <span class="badge" style="background-color: rgb(139, 223, 91); color: rgb(255, 255, 255)">首次学习</span>
             </p>
             <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
-            <div class="detail-content"></div>
+            <div class="detail-content">
+                <div class="detail-item">
+                    <p style="margin-left: 8px; height: 45px; line-height: 45px;">计划完成时间：今天</p>
+                </div>
+            </div>
             <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
             <div class="detail-foot"><img src="./res/close.svg" style="margin: 12px;" onclick="hideDetails()"></div>
         </div>
@@ -292,7 +218,7 @@
         $('#today-details').css("display","")
     }
 
-    function clickItem(str) {
+    function finishToday(str) {
         console.log(str)
     }
 
