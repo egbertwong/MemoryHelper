@@ -92,6 +92,7 @@
 .div-content {
   display: flex;
   width: 100vw;
+  min-width: 360px;
   height:100vh;
   background-color: rgba(92, 112, 190, 0.3);
   flex-grow: 1
@@ -99,8 +100,8 @@
 
 .div-details {
   height:100vh;
-  width: 280px;
-  min-width: 280px;
+  width: 360px;
+  min-width: 360px;
   display: flex;
   flex-direction: column;
   background-color: rgb(252, 252, 254);
