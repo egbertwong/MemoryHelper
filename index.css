@@ -76,7 +76,8 @@
   font-weight:bold;
   height: 45px;
   background-color: rgb(244, 246, 251);
-  color: rgb(92, 112, 190)
+  color: rgb(92, 112, 190);
+  outline:none;
 }
 
 .item-sidebar {
@@ -86,7 +87,8 @@
   align-items: center;
   height: 45px;
   background-color: rgb(252, 252, 254);
-  color: rgb(0, 0, 0)
+  color: rgb(0, 0, 0);
+  outline:none;
 }
 
 .div-content {
