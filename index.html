@@ -252,6 +252,12 @@
     }
     db.addTypes('数学')
     db.addTypes('英语')
+    db.queryType(1, function (myType) {
+        console.log(myType)
+    })
+    db.addTask('微积分第一章数列部分', '数学', 0, function(myTask) {
+        alert("My types: " + JSON.stringify(myTask));
+    })
 
     getTypes()
 

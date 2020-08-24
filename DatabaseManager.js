@@ -1,5 +1,8 @@
 const Dexie = require('dexie')
 
+/**
+ * Database manager. Pack my function of database.
+ */
 class DBManager {
 
     db
@@ -38,14 +41,14 @@ class DBManager {
             // Make sure we have something in DB:
             if ((yield this.db.types.where('name').equals(name).count()) === 0) {
                 let id = yield this.db.types.add({ name: name });
-                alert(`Added type with id ${id}`);
+                // alert(`Added type with id ${id}`);
             }
 
             // Query:
             let myTypes = yield this.db.types.toArray();
 
             // Show result:
-            alert("My types: " + JSON.stringify(myTypes));
+            // alert("My types: " + JSON.stringify(myTypes));
 
         }).catch(e => {
             console.error(e.stack);
@@ -72,17 +75,44 @@ class DBManager {
     }
 
     queryType(id, callback) {
+        // const type = this.db.types.get(id)
+        // console.log(type.value)
         this.db.transaction('r', this.db.types, function* () {
             // Query:
-            myTypes = yield this.db.types
-            .where('id').equals(id)
-            .toArray();
+            let myType = yield this.db.types
+            .get(id)
 
-            callback(myTypes)
+            callback(myType)
         }).catch(e => {
             console.error(e.stack);
         });
     }
+
+    /******************************* functions of tasks *******************************/
+    addTask(name, style, status, callback) {
+        this.db.transaction('rw', this.db.tasks, function* () {
+            // Make sure we have something in DB:
+            if ((yield this.db.tasks.where('name').equals(name).count()) === 0) {
+                let id = yield this.db.tasks.add({ name: name, style: style, status: status });
+                alert(`Added tasks with id ${id}`);
+            }
+
+            // Query:
+            let myTasks = yield this.db.tasks
+            .where('name').equals(name)
+            .toArray();
+
+            callback(myTasks)
+        }).catch(e => {
+            console.error(e.stack);
+        });
+    }
+
+    updateTask(id, name, style, status, callback) {
+
+    }
+
+    /******************************* functions of scheduled *******************************/
 }
 
 module.exports = DBManager
