@@ -95,7 +95,7 @@
                         <div class="table-area noselect" id="table-data">
                             <div class="div-list-item" onclick="chooseItem('yes')">
                                 <img src="./res/radio-false.svg" style="align-items: center;"
-                                    onclick="finishTodayItem('choose')">
+                                    onclick="finishTodayItem('choose'); event.cancelBubble = true">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
                                     <span class="badge"
