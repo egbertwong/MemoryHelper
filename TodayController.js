@@ -26,5 +26,9 @@ function loadTodayItemDetails(item) {
  * @param {int} id Id of the task
  */
 function finishTodayItem(id) {
+    console.log(id)
+}
 
+function hideTodayItemDetails() {
+    $('#today-details').css("display", "none")
 }
