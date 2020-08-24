@@ -94,7 +94,6 @@
 .div-content {
   display: flex;
   width: 100vw;
-  min-width: 360px;
   height:100vh;
   background-color: rgba(92, 112, 190, 0.3);
   flex-grow: 1
@@ -160,6 +159,8 @@
   display: flex;
   flex-direction: column;
   height:100vh;
+  min-width: 360px;
+  flex: 1;
 }
 
 .table-area {
