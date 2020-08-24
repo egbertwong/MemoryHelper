@@ -18,6 +18,7 @@
     <script
         src="node_modules/popper.js/dist/umd/popper.min.js">require(node_modules / popper.js / dist / umd / popper.min.js)</script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./TodayController.js"></script>
     <link rel="stylesheet" href="index.css">
     <style type="text/css">
         a:link {
@@ -80,10 +81,11 @@
                                 style="float:right; margin-top: 16px; margin-bottom: 8px;">
                                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                    aria-expanded="false" onclick="getTypes()">
                                     全部
                                 </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <div class="dropdown-menu dropdown-menu-right" id="today-filter"
+                                    aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="javascript:onClickDropdown('male')">Male</a>
                                     <a class="dropdown-item" href="javascript:onClickDropdown('female')">Female</a>
                                 </div>
@@ -92,59 +94,68 @@
 
                         <div class="table-area noselect" id="table-data">
                             <div class="div-list-item" onclick="chooseItem('yes')">
-                                <img src="./res/radio-false.svg" style="align-items: center;" onclick="finishToday('choose')">
+                                <img src="./res/radio-false.svg" style="align-items: center;"
+                                    onclick="finishTodayItem('choose')">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
 
@@ -152,14 +163,16 @@
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
                             <div class="div-list-item">
                                 <img src="./res/radio-false.svg" style="align-items: center;">
                                 <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                     测试项目
-                                    <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
+                                    <span class="badge"
+                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
                                 </p>
                             </div>
                         </div>
@@ -196,7 +209,8 @@
                 </div>
             </div>
             <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
-            <div class="detail-foot"><img src="./res/close.svg" style="margin: 12px;" onclick="hideDetails()"></div>
+            <div class="detail-foot"><img src="./res/close.svg" style="margin: 12px;" onclick="hideTodayItemDetails()">
+            </div>
         </div>
     </div>
 </body>
@@ -216,9 +230,34 @@
     const DBManager = require('./DatabaseManager')
     const db = new DBManager('MemoryDB')
 
+    // addTypes("Math")
+    function addTypes(name) {
+        db.transaction('rw', db.types, function* () {
+
+            // Make sure we have something in DB:
+            if ((yield db.types.where('name').equals(name).count()) === 0) {
+                let id = yield db.types.add({ name: name });
+                alert(`Added type with id ${id}`);
+            }
+
+            // Query:
+            let myTypes = yield db.types.where("name").equals(name).toArray();
+
+            // Show result:
+            alert("My types: " + JSON.stringify(myTypes));
+
+        }).catch(e => {
+            console.error(e.stack);
+        });
+    }
+    db.addTypes('数学')
+    db.addTypes('英语')
+
+    getTypes()
+
     function chooseItem(str) {
         console.log(str)
-        $('#today-details').css("display","")
+        $('#today-details').css("display", "")
     }
 
     function finishToday(str) {
@@ -226,12 +265,29 @@
     }
 
     function hideDetails() {
-        $('#today-details').css("display","none")
+        $('#today-details').css("display", "none")
     }
 
     function onClickDropdown(str) {
         console.log(str)
         $('#dropdownMenuButton').html(str)
+    }
+
+    function getTypes() {
+        db.getAllTypes(function (myTypes) {
+            console.log('callback+' + myTypes)
+            filterHtml = `<a class="dropdown-item" href="javascript:onClickDropdown('全部')">全部</a>`
+            for (i = 0; i < myTypes.length; i++) {
+                filterHtml += `<a class="dropdown-item" href="javascript:onClickDropdown('${myTypes[i].name}')">${myTypes[i].name}</a>`
+            }
+            $('#today-filter').html(filterHtml)
+        })
+    }
+
+    function getTypeNameById(id) {
+        db.queryType(id, function (id) {
+
+        })
     }
 
     $('#v-pills-today-tab').click({ str: 'today' }, testFun);
