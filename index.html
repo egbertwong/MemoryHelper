@@ -49,9 +49,9 @@
                     role="tab" aria-controls="v-pills-completed" aria-selected="false">
                     Completed
                 </a>
-                <a class="item-sidebar" id="v-pills-allplans-tab" data-toggle="pill" href="#v-pills-allplans" role="tab"
-                    aria-controls="v-pills-allplans" aria-selected="false">
-                    All Plans
+                <a class="item-sidebar" id="v-pills-alltasks-tab" data-toggle="pill" href="#v-pills-alltasks" role="tab"
+                    aria-controls="v-pills-alltasks" aria-selected="false">
+                    All Tasks
                 </a>
                 <a class="item-sidebar" id="v-pills-about-tab" data-toggle="pill" href="#v-pills-about" role="tab"
                     aria-controls="v-pills-about" aria-selected="false">
@@ -62,58 +62,59 @@
         <div class="div-content noselect">
             <div class="tab-content" id="v-pills-tabContent" style="flex-grow: 1">
                 <div class="tab-pane fade show active" id="v-pills-today" role="tabpanel"
-                    aria-labelledby="v-pills-today-tab" style="display: flex; flex-direction: row;">
-                    <div class="page">
-                        <div id="content-head">
-                            <div class="head-title">Today</div>
-                            <div class="head-date">2020年8月16日 星期日</div>
-                        </div>
+                    aria-labelledby="v-pills-today-tab">
+                    <div style="display: flex; flex-direction: row;">
+                        <div class="page">
+                            <div id="content-head">
+                                <div class="head-title">Today</div>
+                                <div class="head-date">2020年8月16日 星期日</div>
+                            </div>
 
-                        <div id="table-filter" style="margin-right: 16px; height: 48px;">
-                            <div class="dropdown" id="myDropdown"
-                                style="float:right; margin-top: 16px; margin-bottom: 8px;">
-                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false" onclick="getTypes()">
-                                    全部
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" id="today-filter"
-                                    aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="javascript:onClickDropdown('male')">Male</a>
-                                    <a class="dropdown-item" href="javascript:onClickDropdown('female')">Female</a>
+                            <div id="table-filter" style="margin-right: 16px; height: 48px;">
+                                <div class="dropdown" id="myDropdown"
+                                    style="float:right; margin-top: 16px; margin-bottom: 8px;">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false" onclick="getTypes()">
+                                        全部
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" id="today-filter"
+                                        aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="javascript:onClickDropdown('male')">Male</a>
+                                        <a class="dropdown-item" href="javascript:onClickDropdown('female')">Female</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-area noselect" id="table-data">
+                                <div class="div-list-item" onclick="chooseItem('yes')">
+                                    <img src="./res/radio-false.svg" style="align-items: center;"
+                                        onclick="finishTodayItem('choose'); event.cancelBubble = true">
+                                    <p style="margin-left: 16px; height: 45px; line-height: 45px;">
+                                        测试项目
+                                        <span class="badge badge-type">英语</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="table-area noselect" id="table-data">
-                            <div class="div-list-item" onclick="chooseItem('yes')">
-                                <img src="./res/radio-false.svg" style="align-items: center;"
-                                    onclick="finishTodayItem('choose'); event.cancelBubble = true">
-                                <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                    测试项目
-                                    <span class="badge"
-                                        style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                                </p>
+                        <div class="div-details noselect" id="today-details">
+                            <p class="detail-name">
+                                微积分第一讲极限与极限定义
+                                <span class="badge badge-type">英语</span>
+                                <span class="badge badge-status">首次学习</span>
+                            </p>
+                            <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
+                            <div class="detail-content">
+                                <div class="detail-item">
+                                    <p style="margin-left: 8px; height: 45px; line-height: 45px;">计划完成时间：今天</p>
+                                </div>
+                            </div>
+                            <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
+                            <div class="detail-foot">
+                                <img src="./res/close.svg" style="margin: 12px;" onclick="hideTodayItemDetails()">
                             </div>
                         </div>
                     </div>
-                    <div class="div-details noselect" id="today-details">
-                        <p class="detail-name">
-                            微积分第一讲极限与极限定义
-                            <span class="badge" style="background-color: rgb(102, 188, 214); color: rgb(255, 255, 255)">英语</span>
-                            <span class="badge" style="background-color: rgb(139, 223, 91); color: rgb(255, 255, 255)">首次学习</span>
-                        </p>
-                        <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
-                        <div class="detail-content">
-                            <div class="detail-item">
-                                <p style="margin-left: 8px; height: 45px; line-height: 45px;">计划完成时间：今天</p>
-                            </div>
-                        </div>
-                        <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
-                        <div class="detail-foot"><img src="./res/close.svg" style="margin: 12px;" onclick="hideTodayItemDetails()">
-                        </div>
-                    </div>
-
                 </div>
                 <div class="tab-pane fade" id="v-pills-scheduled" role="tabpanel"
                     aria-labelledby="v-pills-scheduled-tab">
@@ -123,15 +124,65 @@
                     aria-labelledby="v-pills-completed-tab">
 
                 </div>
-                <div class="tab-pane fade" id="v-pills-allplans" role="tabpanel" aria-labelledby="v-pills-allplans-tab">
+                <div class="tab-pane fade" id="v-pills-alltasks" role="tabpanel" aria-labelledby="v-pills-alltasks-tab">
+                    <div style="display: flex; flex-direction: row;">
+                        <div class="page">
+                            <div id="content-head">
+                                <div class="head-title">All Tasks</div>
+                            </div>
 
+                            <div id="table-filter" style="margin-right: 16px; height: 48px;">
+                                <div class="dropdown" id="myDropdown"
+                                    style="float:right; margin-top: 16px; margin-bottom: 8px;">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false" onclick="getTypes()">
+                                        全部
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" id="today-filter"
+                                        aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="javascript:onClickDropdown('male')">Male</a>
+                                        <a class="dropdown-item" href="javascript:onClickDropdown('female')">Female</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-area noselect" id="table-data">
+                                <div class="div-list-item" onclick="chooseItem('yes')">
+                                    <img src="./res/radio-false.svg" style="align-items: center;"
+                                        onclick="finishTodayItem('choose'); event.cancelBubble = true">
+                                    <p style="margin-left: 16px; height: 45px; line-height: 45px;">
+                                        测试项目
+                                        <span class="badge badge-type">英语</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="div-details noselect" id="today-details">
+                            <p class="detail-name">
+                                微积分第一讲极限与极限定义
+                                <span class="badge badge-type">英语</span>
+                                <span class="badge badge-status">首次学习</span>
+                            </p>
+                            <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
+                            <div class="detail-content">
+                                <div class="detail-item">
+                                    <p style="margin-left: 8px; height: 45px; line-height: 45px;">计划完成时间：今天</p>
+                                </div>
+                            </div>
+                            <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
+                            <div class="detail-foot">
+                                <img src="./res/close.svg" style="margin: 12px;" onclick="hideTodayItemDetails()">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-about" role="tabpanel" aria-labelledby="v-pills-about-tab">
 
                 </div>
             </div>
         </div>
-        
+
     </div>
 </body>
 
@@ -140,34 +191,15 @@
     const DBManager = require('./DatabaseManager')
     const db = new DBManager('MemoryDB')
 
-    // addTypes("Math")
-    function addTypes(name) {
-        db.transaction('rw', db.types, function* () {
-
-            // Make sure we have something in DB:
-            if ((yield db.types.where('name').equals(name).count()) === 0) {
-                let id = yield db.types.add({ name: name });
-                alert(`Added type with id ${id}`);
-            }
-
-            // Query:
-            let myTypes = yield db.types.where("name").equals(name).toArray();
-
-            // Show result:
-            alert("My types: " + JSON.stringify(myTypes));
-
-        }).catch(e => {
-            console.error(e.stack);
-        });
-    }
-    db.addTypes('数学')
-    db.addTypes('英语')
-    db.queryType(1, function (myType) {
-        console.log(myType)
-    })
-    db.addTask('微积分第一章数列部分', '数学', 0, function(myTask) {
-        alert("My types: " + JSON.stringify(myTask));
-    })
+    initTodayPage(db)
+    // db.addTypes('数学')
+    // db.addTypes('英语')
+    // db.queryType(1, function (myType) {
+    //     console.log(myType)
+    // })
+    // db.addTask('微积分第一章数列部分', '数学', 0, function(myTask) {
+    //     alert("My types: " + JSON.stringify(myTask));
+    // })
 
     getTypes()
 
@@ -191,7 +223,6 @@
 
     function getTypes() {
         db.getAllTypes(function (myTypes) {
-            console.log('callback+' + myTypes)
             filterHtml = `<a class="dropdown-item" href="javascript:onClickDropdown('全部')">全部</a>`
             for (i = 0; i < myTypes.length; i++) {
                 filterHtml += `<a class="dropdown-item" href="javascript:onClickDropdown('${myTypes[i].name}')">${myTypes[i].name}</a>`

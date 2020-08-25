@@ -220,6 +220,16 @@
   bottom: 0;
 }
 
+.badge-type {
+  background-color: rgb(102, 188, 214);
+  color: rgb(255, 255, 255);
+}
+
+.badge-status {
+  background-color: rgb(139, 223, 91);
+  color: rgb(255, 255, 255);
+}
+
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
