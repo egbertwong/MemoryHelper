@@ -13,9 +13,9 @@ class DBManager {
         this.db = new Dexie(dbName)
         this.db.version(1).stores({
             types: '++id, name',
-            tasks: '++id, name, type, status, first_date, last_date, next_date, complete_times, delayed_times, rate',
-            scheduled: '++id, name, type, status, scheduled_date',
-            completed: '++id, name, type, status, scheduled_date, completed_date, rate'
+            tasks: '++id, name, type_id, status, first_date, last_date, next_date, complete_times, delayed_times, rate',
+            scheduled: '++id, name_id, type_id, status, scheduled_date',
+            completed: '++id, name_id, type_id, status, scheduled_date, completed_date, rate'
         })
         console.log('db created')
         this.db.open().then(result => {
@@ -55,6 +55,10 @@ class DBManager {
         });
     }
 
+    updateTypes(oldName, newName) {
+
+    }
+
     deleteTypes(name) {
 
     }
@@ -74,13 +78,13 @@ class DBManager {
         // return myTypes
     }
 
-    queryType(id, callback) {
-        // const type = this.db.types.get(id)
-        // console.log(type.value)
+    async queryType(id, callback) {
+        let myType = await this.db.types.get(id)
+        console.log('111queryType' + myType)
+        return myType
         this.db.transaction('r', this.db.types, function* () {
             // Query:
-            let myType = yield this.db.types
-            .get(id)
+            let myType = yield this.db.types.get(id)
 
             callback(myType)
         }).catch(e => {
@@ -89,11 +93,11 @@ class DBManager {
     }
 
     /******************************* functions of tasks *******************************/
-    addTask(name, style, status, callback) {
+    addTask(name, type_id, callback) {
         this.db.transaction('rw', this.db.tasks, function* () {
             // Make sure we have something in DB:
             if ((yield this.db.tasks.where('name').equals(name).count()) === 0) {
-                let id = yield this.db.tasks.add({ name: name, style: style, status: status });
+                let id = yield this.db.tasks.add({ name: name, type_id: type_id, status: 0 });
                 alert(`Added tasks with id ${id}`);
             }
 
@@ -113,6 +117,18 @@ class DBManager {
     }
 
     /******************************* functions of scheduled *******************************/
+    addScheduled(name, type, status, scheduled_date) {
+
+    }
+
+    deleteScheduled(id) {
+
+    }
+
+    /******************************* functions of completed *******************************/
+    addCompleted(name, type, status, scheduled_date, completed_date, rate) {
+        
+    }
 }
 
 module.exports = DBManager

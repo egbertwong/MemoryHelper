@@ -81,13 +81,13 @@ Database use
 
 
 
-## Plans
+## Tasks
 
 | ID           | Type   | Length | Allow Null | Description                                                  |
 | ------------ | ------ | ------ | ---------- | ------------------------------------------------------------ |
 | uuid         | String | 32     | false      |                                                              |
 | name         | String | 20     | false      |                                                              |
-| type         | String | 20     | false      |                                                              |
+| type_id      | String | 20     | false      | types table                                                  |
 | status       | int    | 32     | false      | 0: haven't done, <br>1: learn once time, <br>2: learn next day, <br>3: learn next week, turn into monthly plan. |
 | Time_1       | time   |        | true       | First learn time                                             |
 | Time_Last    | time   |        | true       | Last learn time.                                             |
@@ -103,8 +103,8 @@ Database use
 | ID        | Type   | Length | Allow Null | Description              |
 | --------- | ------ | ------ | ---------- | ------------------------ |
 | uuid      | String | 32     | false      |                          |
-| name      | String | 20     | false      |                          |
-| type      | String | 20     | false      |                          |
+| name_id   | String | 20     | false      | tasks table              |
+| type_id   | String | 20     | false      | types table              |
 | status    | int    | 32     | false      |                          |
 | plan_date | time   |        | false      | Date to finish the plan. |
 
@@ -115,8 +115,8 @@ Database use
 | ID        | Type   | Length | Allow Null | Description      |
 | --------- | ------ | ------ | ---------- | ---------------- |
 | uuid      | String | 32     | false      |                  |
-| name      | String | 20     | false      |                  |
-| type      | String | 20     | false      |                  |
+| name_id   | String | 20     | false      | tasks table      |
+| type_id   | String | 20     | false      | types table      |
 | status    | int    | 32     | false      |                  |
 | plan_date | time   |        | false      |                  |
 | done_date | time   |        | false      |                  |
