@@ -12,6 +12,7 @@
         src="node_modules/popper.js/dist/umd/popper.min.js">require(node_modules / popper.js / dist / umd / popper.min.js)</script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./TodayController.js"></script>
+    <script src="./TasksController.js"></script>
     <link rel="stylesheet" href="index.css">
     <style type="text/css">
         a:link {
@@ -86,7 +87,7 @@
                                 </div>
                             </div>
 
-                            <div class="table-area noselect" id="table-data">
+                            <div class="table-area noselect" id="today-list">
                                 <div class="div-list-item" onclick="chooseItem('yes')">
                                     <img src="./res/radio-false.svg" style="align-items: center;"
                                         onclick="finishTodayItem('choose'); event.cancelBubble = true">
@@ -147,10 +148,8 @@
                                 </div>
                             </div>
 
-                            <div class="table-area noselect" id="table-data">
-                                <div class="div-list-item" onclick="chooseItem('yes')">
-                                    <img src="./res/radio-false.svg" style="align-items: center;"
-                                        onclick="finishTodayItem('choose'); event.cancelBubble = true">
+                            <div class="table-area noselect" id="tasks-list">
+                                <div class="div-list-item" onclick="loadTaskItemDetails(0)">
                                     <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                                         测试项目
                                         <span class="badge badge-type">英语</span>
@@ -158,7 +157,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="div-details noselect" id="today-details">
+                        <div class="div-details noselect" id="task-details">
                             <p class="detail-name">
                                 微积分第一讲极限与极限定义
                                 <span class="badge badge-type">英语</span>
@@ -172,7 +171,7 @@
                             </div>
                             <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
                             <div class="detail-foot">
-                                <img src="./res/close.svg" style="margin: 12px;" onclick="hideTodayItemDetails()">
+                                <img src="./res/close.svg" style="margin: 12px;" onclick="hideTaskItemDetails()">
                             </div>
                         </div>
                     </div>
