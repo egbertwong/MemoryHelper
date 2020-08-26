@@ -86,19 +86,17 @@ class DBManager {
 
     /******************************* functions of tasks *******************************/
     addTask(name, type_id, callback) {
-        this.db.transaction('rw', this.db.tasks, function* () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, function* () {
             // Make sure we have something in DB:
             if ((yield this.db.tasks.where('name').equals(name).count()) === 0) {
                 let id = yield this.db.tasks.add({ name: name, type_id: type_id, status: 0 });
-                alert(`Added tasks with id ${id}`);
+                console.log(`Added tasks with id ${id}`);
+                let myTasks = yield this.db.tasks.get(id)
+
+                callback(myTasks)
+            } else {
+                callback(null)
             }
-
-            // Query:
-            let myTasks = yield this.db.tasks
-            .where('name').equals(name)
-            .toArray();
-
-            callback(myTasks)
         }).catch(e => {
             console.error(e.stack);
         });
@@ -126,7 +124,7 @@ class DBManager {
             //     alert(`Added tasks with id ${id}`);
             // }
             console.log('loadTasks transaction')
-            this.db.tasks.each(function (task, db) {
+            this.db.tasks.each(function (task) {
                 console.log('loadTasks each')
                 callback(task)
                 // let type = db.types.where('id').equals(task.type_id)
@@ -153,7 +151,7 @@ class DBManager {
 
     /******************************* functions of completed *******************************/
     addCompleted(name, type, status, scheduled_date, completed_date, rate) {
-        
+
     }
 }
 

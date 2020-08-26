@@ -30,7 +30,7 @@ async function loadTasksList(db) {
                         <span class="badge badge-type">${type.name}</span>
                     </p>
                 </div>
-        `)
+            `)
         })
     })
 }
@@ -63,20 +63,42 @@ function loadAddTaskDetails(db) {
                 <input class="form-control" type="text" id="add-task-typein-name"
                     placeholder="Task name">
             </div>
-            <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails()">提交</button>
+            <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails(db)">提交</button>
         </form>`)
     db.getAllTypes((type) => {
         $('#add-task-choose-type').append(`
-            <option value="${type.id}">${type.name}</option>
+            <option value=${type.id}>${type.name}</option>
         `)
     })
 
 }
 
-function commitAddTaskDetails() {
-    let type_id = $('#add-task-choose-type').val()
+function commitAddTaskDetails(db) {
+    let type_id = parseInt($('#add-task-choose-type').val(), 10)
     let name = $('#add-task-typein-name').val()
     console.log('type:' + type_id + ', name:' + name)
+    if (name == null) {
+        return
+    }
+
+    db.addTask(name, type_id, (task) => {
+        console.log('namee:' + task.name)
+        if (task.name == name) {
+            console.log('succcess')
+            db.queryType(task.type_id, (type) => { 
+                $('#tasks-list').append(`
+                    <div class="div-list-item" onclick="loadTaskItemDetails(${task.id})">
+                        <p style="margin-left: 16px; height: 45px; line-height: 45px;">
+                            ${task.name}
+                            <span class="badge badge-type">${type.name}</span>
+                        </p>
+                    </div>
+                `)
+            })
+        } else {
+            console.log('fail')
+        }
+    })
 }
 
 /**
