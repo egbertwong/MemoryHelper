@@ -133,7 +133,10 @@
                                 <div class="head-title">Tasks</div>
                             </div>
 
-                            <div id="table-filter" style="margin-right: 16px; height: 48px;">
+                            <div id="table-filter" style="margin-left: 16px; margin-right: 16px; height: 48px;">
+                                <button type="button" class="btn btn-secondary btn-sm"
+                                    style="float:left; margin-top: 16px; margin-bottom: 8px;"
+                                    onclick="loadAddTaskDetails(db)">添加</button>
                                 <div class="dropdown" id="myDropdown"
                                     style="float:right; margin-top: 16px; margin-bottom: 8px;">
                                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
@@ -159,16 +162,27 @@
                             </div>
                         </div>
                         <div class="div-details noselect" id="task-details">
-                            <p class="detail-name">
-                                微积分第一讲极限与极限定义
-                                <span class="badge badge-type">英语</span>
-                                <span class="badge badge-status">首次学习</span>
-                            </p>
+                            <p class="detail-name" id="task-details-title"></p>
                             <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
-                            <div class="detail-content">
-                                <div class="detail-item">
-                                    <p style="margin-left: 8px; height: 45px; line-height: 45px;">计划完成时间：今天</p>
-                                </div>
+                            <div class="detail-content" id="detail-content">
+                                <form style="margin: 8px;">
+                                    <div class="form-group">
+                                        <label for="add-task-choose-type">Type</label>
+                                        <select class="form-control" id="add-task-choose-type">
+                                            <option value="1">数学</option>
+                                            <option value="2">英语</option>
+                                            <option value="3">政治</option>
+                                            <option value="4">无论</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="add-task-typein-name">Task name</label>
+                                        <input class="form-control" type="text" id="add-task-typein-name"
+                                            placeholder="Task name">
+                                    </div>
+                                    <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails()">提交</button>
+                                </form>
                             </div>
                             <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
                             <div class="detail-foot">

@@ -64,12 +64,10 @@ class DBManager {
     }
 
     getAllTypes(callback) {
-        let myTypes
-
         this.db.transaction('r', this.db.types, function* () {
-            myTypes = yield this.db.types.toArray();
-
-            callback(myTypes)
+            this.db.types.each(function (type) {
+                callback(type)
+            })
         }).catch(e => {
             console.error(e.stack);
         });

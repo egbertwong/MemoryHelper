@@ -36,6 +36,50 @@ async function loadTasksList(db) {
 }
 
 /**
+ * 
+ */
+function loadAddTypeDetails() {
+    $('#task-details').css("display", "")
+    $('#task-details-title').html('添加类型')
+    // 输入类型名称
+    // 确定 提交，返回结果
+}
+
+/**
+ * 
+ */
+function loadAddTaskDetails(db) {
+    $('#task-details').css("display", "")
+    $('#task-details-title').html('添加任务')
+    $('#detail-content').html(`
+        <form style="margin: 8px;">
+            <div class="form-group">
+                <label for="add-task-choose-type">Type</label>
+                <select class="form-control" id="add-task-choose-type">
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="add-task-typein-name">Task name</label>
+                <input class="form-control" type="text" id="add-task-typein-name"
+                    placeholder="Task name">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails()">提交</button>
+        </form>`)
+    db.getAllTypes((type) => {
+        $('#add-task-choose-type').append(`
+            <option value="${type.id}">${type.name}</option>
+        `)
+    })
+
+}
+
+function commitAddTaskDetails() {
+    let type_id = $('#add-task-choose-type').val()
+    let name = $('#add-task-typein-name').val()
+    console.log('type:' + type_id + ', name:' + name)
+}
+
+/**
  * Open the detail column on the right and show task details
  * @param {task item} task 
  */
