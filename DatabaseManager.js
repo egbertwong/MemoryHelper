@@ -73,16 +73,10 @@ class DBManager {
         }).catch(e => {
             console.error(e.stack);
         });
-
-        // alert("My types: " + JSON.stringify(myTypes));
-        // return myTypes
     }
 
-    async queryType(id, callback) {
-        let myType = await this.db.types.get(id)
-        console.log('111queryType' + myType)
-        return myType
-        this.db.transaction('r', this.db.types, function* () {
+    queryType(id, callback) {
+        this.db.transaction('r', this.db.types, this.db.tasks, function* () {
             // Query:
             let myType = yield this.db.types.get(id)
 
@@ -114,6 +108,40 @@ class DBManager {
 
     updateTask(id, name, style, status, callback) {
 
+    }
+
+    async getTasks(callback) {
+        let tasks = await this.db.tasks.toArray()
+        return tasks
+    }
+
+    loadTasks(callback) {
+        // this.db.tasks.each((task) => {
+        //     console.log('loadTasks:' + task.name)
+        //     callback(task)
+        // })
+        console.log('loadTasks')
+        this.db.transaction('r', this.db.tasks, this.db.types, function () {
+            // // Make sure we have something in DB:
+            // if ((yield this.db.tasks.where('name').equals(name).count()) === 0) {
+            //     let id = yield this.db.tasks.add({ name: name, type_id: type_id, status: 0 });
+            //     alert(`Added tasks with id ${id}`);
+            // }
+            console.log('loadTasks transaction')
+            this.db.tasks.each(function (task, db) {
+                console.log('loadTasks each')
+                callback(task)
+                // let type = db.types.where('id').equals(task.type_id)
+                // console.log('loadTasks111:' + type.name)
+                // if (type != null) {
+                //     task.type_id = type.name
+                // }
+                // console.log('loadTasks:' + task)
+                // callback(task)
+            })
+        }).catch(e => {
+            console.error(e.stack);
+        });
     }
 
     /******************************* functions of scheduled *******************************/

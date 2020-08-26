@@ -5,13 +5,20 @@ function loadTodayInterface() {
 /**
  * Call this function at the beginning of the page to load the today interface.
  */
-function initTodayPage(db) {
+async function initTodayPage(db) {
     loadTodayInterface()
     db.addTypes('数学')
     db.addTypes('英语')
-    db.addTask('微积分第一章数列部分', '数学', (myTask) => {
-        alert("My types: " + JSON.stringify(myTask));
+    db.addTask('微积分第一章数列部分', 1, (myTask) => {
+        console.log("My types: " + JSON.stringify(myTask));
     })
+    db.addTask('微积分第一章极限部分', 1, (myTask) => {
+        console.log("My types: " + JSON.stringify(myTask));
+    })
+    let tasks = await db.getTasks()
+    console.log('tasks:' + tasks.length)
+    let days = calculateDays('2020-08-24', '2020-08-26')
+    console.log('days:' + days)
 }
 
 /**
@@ -24,8 +31,32 @@ async function loadTodayList(db, todayList) {
     let html = ``
 
     for (i = 0; i < todayList.length; i++) {
-        let type = await this.db.types.get(todayList[i].type_id)
-        console.log('type name:' + type.name)
+        let type = await db.queryType(todayList[i].id)
+        html += `
+        <div class="div-list-item" onclick="chooseTodayItem(${todayList[i].id})">
+            <img src="./res/radio-false.svg" style="align-items: center;"
+                onclick="finishTodayItem(${todayList[i].id}); event.cancelBubble = true">
+            <p style="margin-left: 16px; height: 45px; line-height: 45px;">
+                ${todayList[i].name}
+                <span class="badge badge-type">${type.name}</span>
+                <span class="badge badge-status">${todayList[i].status}</span>
+            </p>
+        </div>
+        `
+    }
+}
+
+/**
+ * Call this function when switched in Today page.
+ * @param {DBManager} db 
+ * @param {scheduled list} todayList Filter out today's tasks from the scheduled list
+ */
+async function addTodayList(db, todayItem) {
+    $('#today-list').html(``)
+    let html = ``
+
+    if (1) {
+        let type = await db.queryType(todayList[i].id)
         html += `
         <div class="div-list-item" onclick="chooseTodayItem(${todayList[i].id})">
             <img src="./res/radio-false.svg" style="align-items: center;"
@@ -42,9 +73,10 @@ async function loadTodayList(db, todayList) {
 
 /**
  * Open detail column and show the details of the clicking item.
- * @param {scheduled item} item 
+ * @param {DBManager} db 
+ * @param {item id} id 
  */
-function loadTodayItemDetails(item) {
+function loadTodayItemDetails(db, id) {
     $('#today-details').css("display", "")
 }
 

@@ -11,6 +11,7 @@
     <script
         src="node_modules/popper.js/dist/umd/popper.min.js">require(node_modules / popper.js / dist / umd / popper.min.js)</script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./utils/date-utils.js"></script>
     <script src="./TodayController.js"></script>
     <script src="./TasksController.js"></script>
     <link rel="stylesheet" href="index.css">
@@ -236,11 +237,11 @@
         })
     }
 
-    $('#v-pills-today-tab').click({ str: 'today' }, testFun);
-    $('#v-pills-scheduled-tab').click({ str: 'scheduled' }, testFun);
-    $('#v-pills-completed-tab').click({ str: 'completed' }, testFun);
-    $('#v-pills-allplans-tab').click({ str: 'allplans' }, testFun);
-    $('#v-pills-about-tab').click({ str: 'about' }, testFun);
+    $('#v-pills-today-tab').click({ str: 'today', db: db }, testFun);
+    $('#v-pills-scheduled-tab').click({ str: 'scheduled', db: db }, testFun);
+    $('#v-pills-completed-tab').click({ str: 'completed', db: db }, testFun);
+    $('#v-pills-tasks-tab').click({ str: 'tasks', db: db }, testFun);
+    $('#v-pills-about-tab').click({ str: 'about', db: db }, testFun);
 </script>
 
 </html>

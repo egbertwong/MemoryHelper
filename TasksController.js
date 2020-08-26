@@ -3,24 +3,42 @@ function loadTasksInterface() {
 }
 
 function initTasksPage(db) {
+    console.log('initTasksPage')
     loadTasksInterface()
+    loadTasksList(db)
+}
+
+function loadListFilter(db) {
+    
 }
 
 /**
  * 
  * @param {DBManager} db 
- * @param {list} List 
  */
-async function loadTasksList(db, tasksList) {
+async function loadTasksList(db) {
     $('#tasks-list').html(``)
     let html = ``
 
-    for(i = 0; i < tasksList.length; i++) {
-        let type = await this.db.types.get(tasksList[i].type_id)
-        html += ``
-    }
+    db.loadTasks((task) => {
+        console.log('loadTasksList loadTasks callback')
+        db.queryType(task.type_id, (type) => { 
+            $('#tasks-list').append(`
+                <div class="div-list-item" onclick="loadTaskItemDetails(${task.id})">
+                    <p style="margin-left: 16px; height: 45px; line-height: 45px;">
+                        ${task.name}
+                        <span class="badge badge-type">${type.name}</span>
+                    </p>
+                </div>
+        `)
+        })
+    })
 }
 
+/**
+ * Open the detail column on the right and show task details
+ * @param {task item} task 
+ */
 function loadTaskItemDetails(task) {
     $('#task-details').css("display", "")
 }
