@@ -61,7 +61,7 @@ class DBManager {
     }
 
     getAllTypes(callback) {
-        this.db.transaction('r', this.db.types, function* () {
+        this.db.transaction('r', this.db.types, this.db.tasks, function* () {
             this.db.types.each(function (type) {
                 callback(type)
             })
@@ -105,8 +105,9 @@ class DBManager {
 
     getTask(id, callback) {
         this.db.transaction('r', this.db.tasks, this.db.types, function* () {
-            let task = yield this.db.tasks.get(id)
-            callback(task)
+            let myTask = yield this.db.tasks.get(id)
+            console.log('status:' + myTask)
+            callback(myTask)
         }).catch(e => {
             console.error(e.stack);
         });
@@ -151,8 +152,8 @@ class DBManager {
     }
 
     loadScheduleds(callback) {
-        this.db.transaction('r', this.db.tasks, this.db.types, function () {
-            this.db.tasks.each(function (scheduled) {
+        this.db.transaction('r', this.db.tasks, this.db.types, this.db.scheduled, function () {
+            this.db.scheduled.each(function (scheduled) {
                 callback(scheduled)
             })
         }).catch(e => {
