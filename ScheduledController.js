@@ -22,8 +22,8 @@ function loadScheduledList(db, cur_type) {
     $('#scheduled-list').html(``)
 
     db.loadScheduleds((scheduled) => {
-        db.queryType(task.type_id, (type) => {
-            if (cur_type == 0 || cur_type == type.id) {
+        db.queryType(scheduled.type_id, (type) => {
+            if (cur_type == 0 || cur_type == scheduled.type_id) {
                 db.getTask(scheduled.name_id, (task) => {
                     $('#scheduled-list').append(`
                         <div class="div-list-item" onclick="loadScheduledItemDetails(db, ${scheduled.id})">
@@ -38,6 +38,10 @@ function loadScheduledList(db, cur_type) {
 
         })
     })
+}
+
+function loadAddScheduledNamesByType(db, cur_type) {
+
 }
 
 function loadAddScheduledDetails(db) {
