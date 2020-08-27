@@ -35,21 +35,18 @@ class DBManager {
     }
 
     /************************ functions of types *************************/
-    addTypes(name) {
+    addType(name, callback) {
         this.db.transaction('rw', this.db.types, function* () {
 
-            // Make sure we have something in DB:
             if ((yield this.db.types.where('name').equals(name).count()) === 0) {
                 let id = yield this.db.types.add({ name: name });
-                // alert(`Added type with id ${id}`);
-            }
+                let myType = yield this.db.types.get(id)
 
-            // Query:
-            let myTypes = yield this.db.types.toArray();
-
-            // Show result:
-            // alert("My types: " + JSON.stringify(myTypes));
-
+                callback(myType)
+            } else (
+                callback(null)
+            )
+            
         }).catch(e => {
             console.error(e.stack);
         });

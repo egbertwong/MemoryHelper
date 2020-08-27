@@ -5,32 +5,40 @@ function loadTasksInterface() {
 function initTasksPage(db) {
     console.log('initTasksPage')
     loadTasksInterface()
-    loadTasksList(db)
+    loadListFilter(db)
+    loadTasksList(db, 0)
 }
 
 function loadListFilter(db) {
-    
+    $('#tasks-filter').html(`<a class="dropdown-item" href="javascript:loadTasksList(db, 0)">全部</a>`)
+    db.getAllTypes((type) => {
+        $('#tasks-filter').append(`
+            <a class="dropdown-item" href="javascript:loadTasksList(db, ${type.id})">${type.name}</a>
+        `)
+    })
 }
 
 /**
  * 
  * @param {DBManager} db 
  */
-async function loadTasksList(db) {
+async function loadTasksList(db, id) {
     $('#tasks-list').html(``)
     let html = ``
 
     db.loadTasks((task) => {
         console.log('loadTasksList loadTasks callback')
         db.queryType(task.type_id, (type) => { 
-            $('#tasks-list').append(`
-                <div class="div-list-item" onclick="loadTaskItemDetails(${task.id})">
-                    <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                        ${task.name}
-                        <span class="badge badge-type">${type.name}</span>
-                    </p>
-                </div>
-            `)
+            if (id == 0 || id == type.id) {
+                $('#tasks-list').append(`
+                    <div class="div-list-item" onclick="loadTaskItemDetails(${task.id})">
+                        <p style="margin-left: 16px; height: 45px; line-height: 45px;">
+                            ${task.name}
+                            <span class="badge badge-type">${type.name}</span>
+                        </p>
+                    </div>
+                `)
+            }
         })
     })
 }
@@ -38,11 +46,31 @@ async function loadTasksList(db) {
 /**
  * 
  */
-function loadAddTypeDetails() {
+function loadAddTypeDetails(db) {
     $('#task-details').css("display", "")
     $('#task-details-title').html('添加类型')
-    // 输入类型名称
-    // 确定 提交，返回结果
+
+    $('#detail-content').html(`
+        <form style="margin: 8px;">
+            <div class="form-group">
+                <label for="add-type-typein-name">Type name</label>
+                <input class="form-control" type="text" id="add-type-typein-name"
+                    placeholder="Type name">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="commitAddTypeDetails(db)">提交</button>
+        </form>`)
+}
+
+function commitAddTypeDetails(db) {
+    let name = $('#add-type-typein-name').val()
+    db.addType(name, (type) => {
+        console.log('type name:' + type.name)
+        if (type.name != null) {
+            $('#tasks-filter').append(`
+            <a class="dropdown-item" href="javascript:loadTasksList(db, ${type.id})">${type.name}</a>
+        `)
+        }
+    })
 }
 
 /**
@@ -82,9 +110,7 @@ function commitAddTaskDetails(db) {
     }
 
     db.addTask(name, type_id, (task) => {
-        console.log('namee:' + task.name)
         if (task.name == name) {
-            console.log('succcess')
             db.queryType(task.type_id, (type) => { 
                 $('#tasks-list').append(`
                     <div class="div-list-item" onclick="loadTaskItemDetails(${task.id})">
