@@ -13,7 +13,7 @@ function testFun(event, str, db) {
             // initTodayPage(event.data.db)
             break
         case 'scheduled':
-            
+            initScheduledPage(event.data.db)
             break
         case 'completed':
             

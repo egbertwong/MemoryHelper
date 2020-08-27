@@ -150,6 +150,16 @@ class DBManager {
 
     }
 
+    loadScheduleds(callback) {
+        this.db.transaction('r', this.db.tasks, this.db.types, function () {
+            this.db.tasks.each(function (scheduled) {
+                callback(scheduled)
+            })
+        }).catch(e => {
+            console.error(e.stack);
+        });
+    }
+
     /******************************* functions of completed *******************************/
     addCompleted(name, type, status, scheduled_date, completed_date, rate) {
 
