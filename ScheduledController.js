@@ -41,7 +41,16 @@ function loadScheduledList(db, cur_type) {
 }
 
 function loadAddScheduledNamesByType(db, cur_type) {
-
+    $('#add-scheduled-choose-task').html(``)
+    db.loadTasks((task) => {
+        db.queryType(task.type_id, (type) => { 
+            if (cur_type == 0 || cur_type == type.id) {
+                $('#add-scheduled-choose-task').append(`
+                    <option value=${task.id}>${task.name}</option>
+                `)
+            }
+        })
+    })
 }
 
 function loadAddScheduledDetails(db) {
