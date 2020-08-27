@@ -22,14 +22,14 @@ function loadTasksFilter(db) {
  * 
  * @param {DBManager} db 
  */
-async function loadTasksList(db, id) {
+async function loadTasksList(db, cur_type) {
     $('#tasks-list').html(``)
     let html = ``
 
     db.loadTasks((task) => {
         console.log('loadTasksList loadTasks callback')
         db.queryType(task.type_id, (type) => { 
-            if (id == 0 || id == type.id) {
+            if (cur_type == 0 || cur_type == type.id) {
                 $('#tasks-list').append(`
                     <div class="div-list-item" onclick="loadTaskItemDetails(db, ${task.id})">
                         <p style="margin-left: 16px; height: 45px; line-height: 45px;">
@@ -50,7 +50,7 @@ function loadAddTypeDetails(db) {
     $('#task-details').css("display", "")
     $('#task-details-title').html('添加类型')
 
-    $('#detail-content').html(`
+    $('#task-detail-content').html(`
         <form style="margin: 8px;">
             <div class="form-group">
                 <label for="add-type-typein-name">Type name</label>
@@ -79,7 +79,7 @@ function commitAddTypeDetails(db) {
 function loadAddTaskDetails(db) {
     $('#task-details').css("display", "")
     $('#task-details-title').html('添加任务')
-    $('#detail-content').html(`
+    $('#task-detail-content').html(`
         <form style="margin: 8px;">
             <div class="form-group">
                 <label for="add-task-choose-type">Type</label>
@@ -133,7 +133,7 @@ function commitAddTaskDetails(db) {
  */
 function loadTaskItemDetails(db, id) {
     $('#task-details').css("display", "")
-    $('#detail-content').html(``)
+    $('#task-detail-content').html(``)
     db.getTask(id, (task) => {
         if (task.id != null) {
             $('#task-details-title').html(`
@@ -146,7 +146,7 @@ function loadTaskItemDetails(db, id) {
                 }
             })
 
-            $('#detail-content').append(`
+            $('#task-detail-content').append(`
                 <div class="detail-block">
                     <div class="detail-item">
                         首次进行：${task.first_date ? task.first_date : ''}
@@ -162,7 +162,7 @@ function loadTaskItemDetails(db, id) {
                 </div>
             `)
 
-            $('#detail-content').append(`
+            $('#task-detail-content').append(`
                 <div class="detail-block">
                     <div class="detail-item">
                         完成次数：${task.complete_times ? task.complete_times : ''}
