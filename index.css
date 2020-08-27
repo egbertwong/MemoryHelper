@@ -190,30 +190,34 @@
   background-color: rgb(245, 245, 245);
 }
 
-.detail-item {
+.detail-block {
   margin: 8px;
-  padding-left: 8px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   overflow: hidden;
-  height: 45px;
   border: 1px solid  rgb(237, 237, 237);
   border-radius: 5px;
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0)
 }
 
-.detail-item:hover {
-  margin: 8px;
-  padding-left: 8px;
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
+.detail-item {
+  padding-left: 16px;
+  padding-right: 16px;
   height: 45px;
-  border: 1px solid  rgb(237, 237, 237);
-  border-radius: 5px;
+  line-height: 45px;
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+
+.detail-item:hover {
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 45px;
+  overflow: hidden;
   background-color: rgb(250, 251, 252);
-  color: rgb(0, 0, 0)
+  color: rgb(0, 0, 0);
 }
 
 .detail-foot {
@@ -228,6 +232,11 @@
 .badge-status {
   background-color: rgb(139, 223, 91);
   color: rgb(255, 255, 255);
+}
+
+.divider {
+  height: 1px;
+  background-color: rgb(237, 237, 237);
 }
 
 .noselect {

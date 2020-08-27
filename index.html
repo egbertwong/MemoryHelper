@@ -12,6 +12,7 @@
         src="node_modules/popper.js/dist/umd/popper.min.js">require(node_modules / popper.js / dist / umd / popper.min.js)</script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./utils/date-utils.js"></script>
+    <script src="./utils/item-utils.js"></script>
     <script src="./TodayController.js"></script>
     <script src="./TasksController.js"></script>
     <link rel="stylesheet" href="index.css">
@@ -105,13 +106,23 @@
                                 <span class="badge badge-type">英语</span>
                                 <span class="badge badge-status">首次学习</span>
                             </p>
-                            <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
+                            <div class="divider"></div>
                             <div class="detail-content">
-                                <div class="detail-item">
-                                    <p style="margin-left: 8px; height: 45px; line-height: 45px;">计划完成时间：今天</p>
+                                <div class="detail-block">
+                                    <div class="detail-item">
+                                        计划完成时间：今天
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="detail-item">
+                                        计划完成时间：今天
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="detail-item">
+                                        计划完成时间：今天
+                                    </div>
                                 </div>
                             </div>
-                            <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
+                            <div class="divider"></div>
                             <div class="detail-foot">
                                 <img src="./res/close.svg" style="margin: 12px;" onclick="hideTodayItemDetails()">
                             </div>
@@ -120,7 +131,7 @@
                 </div>
                 <div class="tab-pane fade" id="v-pills-scheduled" role="tabpanel"
                     aria-labelledby="v-pills-scheduled-tab">
-
+                    
                 </div>
                 <div class="tab-pane fade" id="v-pills-completed" role="tabpanel"
                     aria-labelledby="v-pills-completed-tab">
@@ -162,26 +173,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="div-details noselect" id="task-details">
+                        <div class="div-details noselect" id="task-details" style="display: none;">
                             <p class="detail-name" id="task-details-title"></p>
-                            <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
-                            <div class="detail-content" id="detail-content">
-                                <form style="margin: 8px;">
-                                    <div class="form-group">
-                                        <label for="add-task-choose-type">Type</label>
-                                        <select class="form-control" id="add-task-choose-type">
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="add-task-typein-name">Task name</label>
-                                        <input class="form-control" type="text" id="add-task-typein-name"
-                                            placeholder="Task name">
-                                    </div>
-                                    <button type="button" class="btn btn-primary"
-                                        onclick="commitAddTaskDetails()">提交</button>
-                                </form>
-                            </div>
-                            <div style="height: 1px; background-color: rgb(237, 237, 237);"></div>
+                            <div class="divider"></div>
+                            <div class="detail-content" id="detail-content"></div>
+                            <div class="divider"></div>
                             <div class="detail-foot">
                                 <img src="./res/close.svg" style="margin: 12px;" onclick="hideTaskItemDetails()">
                             </div>

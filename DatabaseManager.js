@@ -46,7 +46,7 @@ class DBManager {
             } else (
                 callback(null)
             )
-            
+
         }).catch(e => {
             console.error(e.stack);
         });
@@ -103,9 +103,13 @@ class DBManager {
 
     }
 
-    async getTasks(callback) {
-        let tasks = await this.db.tasks.toArray()
-        return tasks
+    getTask(id, callback) {
+        this.db.transaction('r', this.db.tasks, this.db.types, function* () {
+            let task = yield this.db.tasks.get(id)
+            callback(task)
+        }).catch(e => {
+            console.error(e.stack);
+        });
     }
 
     loadTasks(callback) {

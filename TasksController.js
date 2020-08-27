@@ -5,11 +5,11 @@ function loadTasksInterface() {
 function initTasksPage(db) {
     console.log('initTasksPage')
     loadTasksInterface()
-    loadListFilter(db)
+    loadTasksFilter(db)
     loadTasksList(db, 0)
 }
 
-function loadListFilter(db) {
+function loadTasksFilter(db) {
     $('#tasks-filter').html(`<a class="dropdown-item" href="javascript:loadTasksList(db, 0)">全部</a>`)
     db.getAllTypes((type) => {
         $('#tasks-filter').append(`
@@ -31,7 +31,7 @@ async function loadTasksList(db, id) {
         db.queryType(task.type_id, (type) => { 
             if (id == 0 || id == type.id) {
                 $('#tasks-list').append(`
-                    <div class="div-list-item" onclick="loadTaskItemDetails(${task.id})">
+                    <div class="div-list-item" onclick="loadTaskItemDetails(db, ${task.id})">
                         <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                             ${task.name}
                             <span class="badge badge-type">${type.name}</span>
@@ -129,10 +129,57 @@ function commitAddTaskDetails(db) {
 
 /**
  * Open the detail column on the right and show task details
- * @param {task item} task 
+ * @param {task id} id 
  */
-function loadTaskItemDetails(task) {
+function loadTaskItemDetails(db, id) {
     $('#task-details').css("display", "")
+    $('#detail-content').html(``)
+    db.getTask(id, (task) => {
+        if (task.id != null) {
+            $('#task-details-title').html(`
+                ${task.name}
+                <span class="badge badge-status">${getStatusById(task.status)}</span>
+            `)
+            db.queryType(task.type_id, (type) => { 
+                if (type.name != null) {
+                    $('#task-details-title').append(`<span class="badge badge-type">${type.name}</span>`)
+                }
+            })
+
+            $('#detail-content').append(`
+                <div class="detail-block">
+                    <div class="detail-item">
+                        首次进行：${task.first_date ? task.first_date : ''}
+                    </div>
+                    <div class="divider"></div>
+                    <div class="detail-item">
+                        上次进行：${task.last_date ? task.last_date : ''}
+                    </div>
+                    <div class="divider"></div>
+                    <div class="detail-item">
+                        计划进行：${task.next_date ? task.next_date : ''}
+                    </div>
+                </div>
+            `)
+
+            $('#detail-content').append(`
+                <div class="detail-block">
+                    <div class="detail-item">
+                        完成次数：${task.complete_times ? task.complete_times : ''}
+                    </div>
+                    <div class="divider"></div>
+                    <div class="detail-item">
+                        延迟次数：${task.delayed_times ? task.delayed_times : ''}
+                    </div>
+                    <div class="divider"></div>
+                    <div class="detail-item">
+                        效果评级：${task.rate ? task.rate : ''}
+                    </div>
+                </div>
+            `)
+
+        }
+    })
 }
 
 function chooseTaskItem(id) {
