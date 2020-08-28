@@ -56,7 +56,7 @@ function loadScheduledList(db, cur_type) {
 
 function loadAddScheduledTypes(db) {
     $('#add-scheduled-choose-type').html(``)
-    isFirst = true
+    isFirst_Types = true
     db.getAllTypes((type) => {
         $('#add-scheduled-choose-type').append(`
             <option value=${type.id}
@@ -64,9 +64,9 @@ function loadAddScheduledTypes(db) {
             </option>
         `)
 
-        if (isFirst) {
+        if (isFirst_Types) {
             loadAddScheduledNamesByType(db, type.id)
-            isFirst = false
+            isFirst_Types = false
         }
     })
 
@@ -77,7 +77,7 @@ function loadAddScheduledTypes(db) {
 
 function loadAddScheduledNamesByType(db, cur_type) {
     $('#add-scheduled-choose-task').html(``)
-    isFirst = true
+    isFirst_Name = true
     db.loadTasks((task) => {
         console.log('name:' + task.name + ' type:' + task.type_id)
         if (cur_type == task.type_id) {
@@ -85,9 +85,9 @@ function loadAddScheduledNamesByType(db, cur_type) {
                 <option value=${task.id} onclick="loadAddScheduledStatusByTask(db, ${task.id})">${task.name}</option>
             `)
 
-            if (isFirst) {
+            if (isFirst_Name) {
                 loadAddScheduledStatusByTask(db, task.id)
-                isFirst = false
+                isFirst_Name = false
             }
         }
     })
@@ -98,9 +98,10 @@ function loadAddScheduledNamesByType(db, cur_type) {
 }
 
 function loadAddScheduledStatusByTask(db, task_id) {
-    console.log('taskid:' + task_id)
+    let cur_task_id = parseInt(task_id, 10)
+    console.log('taskid:' + cur_task_id)
     $('#add-scheduled-status').html(``)
-    db.getTask(task_id, (task) => {
+    db.getTask(cur_task_id, (task) => {
         console.log('status:' + task.status)
         $('#add-scheduled-status').html(`
             <option value=${task.status}>${getStatusById(task.status)}</option>
