@@ -10,18 +10,6 @@ function loadTodayInterface() {
 async function initTodayPage(db) {
     loadTodayInterface()
     loadTodayTypes(db)
-    // db.addType('数学')
-    // db.addType('英语')
-    // db.addTask('微积分第一章数列部分', 1, (myTask) => {
-    //     console.log("My types: " + JSON.stringify(myTask));
-    // })
-    // db.addTask('微积分第一章极限部分', 1, (myTask) => {
-    //     console.log("My types: " + JSON.stringify(myTask));
-    // })
-    // let tasks = await db.getTasks()
-    // console.log('tasks:' + tasks.length)
-    // let days = calculateDays('2020-08-24', '2020-08-26')
-    // console.log('days:' + days)
 }
 
 function loadTodayTypes(db) {
