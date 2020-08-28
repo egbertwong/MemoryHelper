@@ -10,7 +10,7 @@ function loadCompletedInterface() {
                 <div class="dropdown" id="myDropdown"
                     style="float:right; margin-top: 16px; margin-bottom: 8px;">
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                        id="completedFilterButton" data-toggle="dropdown" aria-haspopup="true"
+                        id="completedDropdownButton" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         全部
                     </button>
@@ -45,12 +45,17 @@ function initCompletedPage(db) {
 }
 
 function loadCompletedFilter(db) {
-    $('#completed-filter').html(`<a class="dropdown-item" href="javascript:loadCompletedList(db, 0)">全部</a>`)
+    $('#completed-filter').html(`<a class="dropdown-item" href="javascript:onClickCompletedDropdown(db, 0, '全部')">全部</a>`)
     db.getAllTypes((type) => {
         $('#completed-filter').append(`
-            <a class="dropdown-item" href="javascript:loadCompletedList(db, ${type.id})">${type.name}</a>
+            <a class="dropdown-item" href="javascript:onClickCompletedDropdown(db, ${type.id}, '${type.name}')">${type.name}</a>
         `)
     })
+}
+
+function onClickCompletedDropdown(db, id, name) {
+    $('#completedDropdownButton').html(name)
+    loadCompletedList(db, id)
 }
 
 function addCompletedListItem(completed_id, task_name, type_name) {

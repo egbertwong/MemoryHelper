@@ -13,7 +13,7 @@ function loadTasksInterface() {
                     <div class="dropdown" id="myDropdown"
                         style="float:right; margin-top: 16px; margin-bottom: 8px;">
                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            id="taskDropdownButton" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             全部
                         </button>
@@ -27,12 +27,6 @@ function loadTasksInterface() {
                 </div>
     
                 <div class="table-area noselect" id="tasks-list">
-                    <div class="div-list-item" onclick="loadTaskItemDetails(0)">
-                        <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                            测试项目
-                            <span class="badge badge-type">英语</span>
-                        </p>
-                    </div>
                 </div>
             </div>
             <div class="div-details noselect" id="task-details" style="display: none;">
@@ -56,12 +50,28 @@ function initTasksPage(db) {
 }
 
 function loadTasksFilter(db) {
-    $('#tasks-filter').html(`<a class="dropdown-item" href="javascript:loadTasksList(db, 0)">全部</a>`)
+    $('#tasks-filter').html(`<a class="dropdown-item" href="javascript:onClickTaskDropdown(db, 0, '全部)">全部</a>`)
     db.getAllTypes((type) => {
         $('#tasks-filter').append(`
-            <a class="dropdown-item" href="javascript:loadTasksList(db, ${type.id})">${type.name}</a>
+            <a class="dropdown-item" href="javascript:onClickTaskDropdown(db, ${type.id}, '${type.name}')">${type.name}</a>
         `)
     })
+}
+
+function onClickTaskDropdown(db, id, name) {
+    $('#taskDropdownButton').html(name)
+    loadTasksList(db, id)
+}
+
+function addTaskListItem(task_id, task_name, type_name) {
+    $('#tasks-list').append(`
+        <div class="div-list-item" onclick="loadTaskItemDetails(db, ${task_id})">
+            <p style="margin-left: 16px; height: 45px; line-height: 45px;">
+                ${task_name}
+                <span class="badge badge-type">${type_name}</span>
+            </p>
+        </div>
+    `)
 }
 
 /**
@@ -76,14 +86,7 @@ async function loadTasksList(db, cur_type) {
         console.log('loadTasksList loadTasks callback')
         db.queryType(task.type_id, (type) => { 
             if (cur_type == 0 || cur_type == type.id) {
-                $('#tasks-list').append(`
-                    <div class="div-list-item" onclick="loadTaskItemDetails(db, ${task.id})">
-                        <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                            ${task.name}
-                            <span class="badge badge-type">${type.name}</span>
-                        </p>
-                    </div>
-                `)
+                addTaskListItem(task.id, task.name, type.name)
             }
         })
     })
@@ -158,14 +161,7 @@ function commitAddTaskDetails(db) {
     db.addTask(name, type_id, (task) => {
         if (task.name == name) {
             db.queryType(task.type_id, (type) => { 
-                $('#tasks-list').append(`
-                    <div class="div-list-item" onclick="loadTaskItemDetails(db, ${task.id})">
-                        <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                            ${task.name}
-                            <span class="badge badge-type">${type.name}</span>
-                        </p>
-                    </div>
-                `)
+                addTaskListItem(task.id, task.name, type.name)
             })
         } else {
             console.log('fail')
@@ -212,11 +208,11 @@ function loadTaskItemDetails(db, id) {
             $('#task-detail-content').append(`
                 <div class="detail-block">
                     <div class="detail-item">
-                        完成次数：${task.complete_times ? task.complete_times : ''}
+                        完成次数：${task.complete_times ? task.complete_times : 0}
                     </div>
                     <div class="divider"></div>
                     <div class="detail-item">
-                        延迟次数：${task.delayed_times ? task.delayed_times : ''}
+                        延迟次数：${task.delayed_times ? task.delayed_times : 0}
                     </div>
                     <div class="divider"></div>
                     <div class="detail-item">

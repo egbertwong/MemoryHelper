@@ -13,7 +13,7 @@ function loadScheduledInterface() {
                 <div class="dropdown" id="myDropdown"
                     style="float:right; margin-top: 16px; margin-bottom: 8px;">
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        id="scheduledDropdownButton" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         全部
                     </button>
@@ -48,12 +48,17 @@ function initScheduledPage(db) {
 }
 
 function loadScheduledFilter(db) {
-    $('#scheduled-filter').html(`<a class="dropdown-item" href="javascript:loadScheduledList(db, 0)">全部</a>`)
+    $('#scheduled-filter').html(`<a class="dropdown-item" href="javascript:onClickScheduledDropdown(db, 0, '全部')">全部</a>`)
     db.getAllTypes((type) => {
         $('#scheduled-filter').append(`
-            <a class="dropdown-item" href="javascript:loadScheduledList(db, ${type.id})">${type.name}</a>
+            <a class="dropdown-item" href="javascript:onClickScheduledDropdown(db, ${type.id}, '${type.name}')">${type.name}</a>
         `)
     })
+}
+
+function onClickScheduledDropdown(db, id, name) {
+    $('#scheduledDropdownButton').html(name)
+    loadScheduledList(db, id)
 }
 
 function addScheduledListItem(scheduled_id, task_name, type_name) {
