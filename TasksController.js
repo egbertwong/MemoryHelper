@@ -113,7 +113,7 @@ function commitAddTaskDetails(db) {
         if (task.name == name) {
             db.queryType(task.type_id, (type) => { 
                 $('#tasks-list').append(`
-                    <div class="div-list-item" onclick="loadTaskItemDetails(${task.id})">
+                    <div class="div-list-item" onclick="loadTaskItemDetails(db, ${task.id})">
                         <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                             ${task.name}
                             <span class="badge badge-type">${type.name}</span>
@@ -134,7 +134,8 @@ function commitAddTaskDetails(db) {
 function loadTaskItemDetails(db, id) {
     $('#task-details').css("display", "")
     $('#task-detail-content').html(``)
-    db.getTask(id, (task) => {
+    let task_id = parseInt(id, 10)
+    db.getTask(task_id, (task) => {
         if (task.id != null) {
             $('#task-details-title').html(`
                 ${task.name}

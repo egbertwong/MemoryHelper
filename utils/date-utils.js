@@ -1,5 +1,10 @@
-function getDate() {
-
+/**
+ * Get date str 'yyyy-MM-dd' from Date()
+ * @param {Date} mydate 
+ */
+function getDateStr(mydate) {
+    date = mydate.getFullYear() + '-' + (mydate.getMonth() + 1) + '-' + mydate.getDate()
+    return date
 }
 
 /**

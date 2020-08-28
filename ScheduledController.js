@@ -18,6 +18,19 @@ function loadScheduledFilter(db) {
     })
 }
 
+function addScheduledListItem(scheduled_id, task_name, type_name) {
+    $('#scheduled-list').append(`
+        <div class="div-list-item" onclick="loadScheduledItemDetails(db, ${scheduled_id})">
+            <img src="./res/radio-false.svg" style="align-items: center;"
+                onclick="finishScheduledItem(db, ${scheduled_id}, this); event.cancelBubble = true">
+            <p style="margin-left: 16px; height: 45px; line-height: 45px;">
+                ${task_name}
+                <span class="badge badge-type">${type_name}</span>
+            </p>
+        </div>
+    `)
+}
+
 function loadScheduledList(db, cur_type) {
     $('#scheduled-list').html(``)
 
@@ -25,32 +38,10 @@ function loadScheduledList(db, cur_type) {
         if (cur_type == 0 || cur_type == scheduled.type_id) {
             db.queryType(scheduled.type_id, (type) => {
                 db.getTask(scheduled.name_id, (task) => {
-                    $('#scheduled-list').append(`
-                        <div class="div-list-item" onclick="loadScheduledItemDetails(db, ${scheduled.id})">
-                            <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                ${task.name}
-                                <span class="badge badge-type">${type.name}</span>
-                            </p>
-                        </div>
-                    `)
+                    addScheduledListItem(scheduled.id, task.name, type.name)
                 })
             })
         }
-        db.queryType(scheduled.type_id, (type) => {
-            if (cur_type == 0 || cur_type == scheduled.type_id) {
-                db.getTask(scheduled.name_id, (task) => {
-                    $('#scheduled-list').append(`
-                        <div class="div-list-item" onclick="loadScheduledItemDetails(db, ${scheduled.id})">
-                            <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                ${task.name}
-                                <span class="badge badge-type">${type.name}</span>
-                            </p>
-                        </div>
-                    `)
-                })
-            }
-
-        })
     })
 }
 
@@ -79,7 +70,6 @@ function loadAddScheduledNamesByType(db, cur_type) {
     $('#add-scheduled-choose-task').html(``)
     isFirst_Name = true
     db.loadTasks((task) => {
-        console.log('name:' + task.name + ' type:' + task.type_id)
         if (cur_type == task.type_id) {
             $('#add-scheduled-choose-task').append(`
                 <option value=${task.id} onclick="loadAddScheduledStatusByTask(db, ${task.id})">${task.name}</option>
@@ -99,12 +89,15 @@ function loadAddScheduledNamesByType(db, cur_type) {
 
 function loadAddScheduledStatusByTask(db, task_id) {
     let cur_task_id = parseInt(task_id, 10)
-    console.log('taskid:' + cur_task_id)
     $('#add-scheduled-status').html(``)
     db.getTask(cur_task_id, (task) => {
-        console.log('status:' + task.status)
+        status_num = parseInt(task.status)
+        if (status_num < 4) {
+            status_num += 1
+        }
+
         $('#add-scheduled-status').html(`
-            <option value=${task.status}>${getStatusById(task.status)}</option>
+            <option value=${status_num}>${getStatusById(status_num)}</option>
         `)
     })
 }
@@ -145,13 +138,109 @@ function loadAddScheduledDetails(db) {
     loadAddScheduledTypes(db)
 }
 
+function commitAddScheduledDetails(db) {
+    name_id = parseInt($('#add-scheduled-choose-task').val(), 10)
+    type_id = parseInt($('#add-scheduled-choose-type').val(), 10)
+    status = parseInt($('#add-scheduled-status').val(), 10)
+    scheduled_date = $('#add-scheduled-date').val()
+
+    status = parseInt(status)
+
+    db.addScheduled(name_id, type_id, status, scheduled_date, (scheduled) => {
+        if (scheduled != null) {
+            let cur_type = $('#scheduled-filter').val()
+            if (cur_type == 0 || cur_type == scheduled.type_id) {
+                db.queryType(scheduled.type_id, (type) => {
+                    db.getTask(scheduled.name_id, (task) => {
+                        addScheduledListItem(scheduled.id, task.name, type.name)
+                        task.next_date = scheduled_date
+
+                        db.updateTask(task)
+                    })
+                })
+            }
+        }
+    })
+}
+
 function loadScheduledItemDetails(db, id) {
     $('#scheduled-details').css("display", "")
+    $('#scheduled-detail-content').html(``)
+    db.getScheduled(id, (scheduled) => {
+        db.getTask(scheduled.name_id, (task) => {
+            if (task.id != null) {
+                $('#scheduled-details-title').html(`
+                    ${task.name}
+                    <span class="badge badge-status">${getStatusById(task.status)}</span>
+                `)
+                db.queryType(scheduled.type_id, (type) => {
+                    if (type.name != null) {
+                        $('#scheduled-details-title').append(`<span class="badge badge-type">${type.name}</span>`)
+                    }
+                })
+
+                date = getDateStr(new Date())
+                let days_left = calculateDays(scheduled.scheduled_date, date)
+
+                $('#scheduled-detail-content').append(`
+                    <div class="detail-block">
+                        <div class="detail-item">
+                            计划进行：${scheduled.scheduled_date ? scheduled.scheduled_date : ''}
+                        </div>
+                        <div class="divider"></div>
+                        <div class="detail-item">
+                            距离今天：${days_left} 天
+                        </div>
+                    </div>
+                `)
+            }
+
+        })
+    })
 
 }
 
-function commitAddScheduledDetails(db) {
-    $('#scheduled-details').css("display", "")
+function finishScheduledItem(db, id, dom) {
+    // 查询 id
+    // 写入完成表
+    // 从计划表删除
+    db.getScheduled(id, (scheduled) => {
+        completed_date = getDateStr(new Date())
+        db.addCompleted(
+            scheduled.name_id,
+            scheduled.type_id,
+            scheduled.status,
+            scheduled.scheduled_date,
+            completed_date,
+            (completed) => {
+                if (completed != null) {
+                    console.log('addComepeted callback')
+                    db.getTask(completed.name_id, (task) => {
+                        task.status = completed.status
+                        if (completed.status == 1) {
+                            task.first_date = completed.completed_date
+                        }
+                        task.last_date = completed.completed_date
+                        if (completed.delay_days > 0) {
+                            task.delayed_times = task.delayed_times ? task.delayed_times + 1 : 1
+                        }
+
+                        task.complete_times = task.complete_times ? task.complete_times + 1 : 1
+
+                        task.next_date = ''
+                        db.updateTask(task, (task) => {
+                            console.log('task:' + task.name)
+                        })
+                        // db.updateTask(task, (newTask) => {
+                        //     console.log('isUpdated:' + JSON.stringify(newTask))
+                        // })
+                    })
+                    // 拿到父节点:
+                    $(dom).parent().remove();
+                }
+            })
+        db.deleteScheduled(scheduled.id)
+    })
 }
 
 function hidescheduledItemDetails() {

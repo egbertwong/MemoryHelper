@@ -1,5 +1,6 @@
 function getStatusById(status) {
-    switch (status) {
+    status_id = parseInt(status, 10)
+    switch (status_id) {
         case 0:
             return '未进行'
         case 1:
