@@ -131,7 +131,6 @@ class DBManager {
     getTask(id, callback) {
         this.db.transaction('rw', this.db.tasks, this.db.types, function* () {
             let myTask = yield this.db.tasks.get(id)
-            console.log('status:' + myTask)
             callback(myTask)
         }).catch(e => {
             console.error(e.stack);
@@ -233,6 +232,25 @@ class DBManager {
             let myCompleted = yield this.db.completed.get(id)
 
             callback(myCompleted)
+        }).catch(e => {
+            console.error(e.stack);
+        });
+    }
+
+    loadCompleteds(callback) {
+        this.db.transaction('rw', this.db.tasks, this.db.types, this.db.scheduled, this.db.completed, function () {
+            this.db.completed.each(function (completed) {
+                callback(completed)
+            })
+        }).catch(e => {
+            console.error(e.stack);
+        });
+    }
+
+    getCompleted(id, callback) {
+        this.db.transaction('rw', this.db.completed, this.db.tasks, this.db.types, this.db.scheduled, function* () {
+            let completed = yield this.db.completed.get(id)
+            callback(completed)
         }).catch(e => {
             console.error(e.stack);
         });

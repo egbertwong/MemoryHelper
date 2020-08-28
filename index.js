@@ -16,7 +16,7 @@ function testFun(event, str, db) {
             initScheduledPage(event.data.db)
             break
         case 'completed':
-            
+            initCompletedPage(event.data.db)
             break
         case 'tasks':
             initTasksPage(event.data.db)
