@@ -1,5 +1,51 @@
 function loadTasksInterface() {
-    html = ``
+    $('#v-pills-tasks').html(`
+        <div style="display: flex; flex-direction: row;">
+          <div class="page">
+                <div id="content-head">
+                    <div class="head-title">Tasks</div>
+                </div>
+    
+                <div id="table-filter" style="margin-left: 16px; margin-right: 16px; height: 48px;">
+                    <button type="button" class="btn btn-secondary btn-sm"
+                        style="float:left; margin-top: 16px; margin-bottom: 8px;"
+                        onclick="loadAddTaskDetails(db)">添加</button>
+                    <div class="dropdown" id="myDropdown"
+                        style="float:right; margin-top: 16px; margin-bottom: 8px;">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            全部
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" id="tasks-filter"
+                            aria-labelledby="dropdownMenuButton">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm"
+                        style="float:right; margin-top: 16px; margin-bottom: 8px; margin-right: 8px;"
+                        onclick="loadAddTypeDetails(db)">编辑类型</button>
+                </div>
+    
+                <div class="table-area noselect" id="tasks-list">
+                    <div class="div-list-item" onclick="loadTaskItemDetails(0)">
+                        <p style="margin-left: 16px; height: 45px; line-height: 45px;">
+                            测试项目
+                            <span class="badge badge-type">英语</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="div-details noselect" id="task-details" style="display: none;">
+                <p class="detail-name" id="task-details-title"></p>
+                <div class="divider"></div>
+                <div class="detail-content" id="task-detail-content"></div>
+                <div class="divider"></div>
+                <div class="detail-foot">
+                    <img src="./res/close.svg" style="margin: 12px;" onclick="hideTaskItemDetails()">
+                </div>
+            </div>
+        </div>
+    `)
 }
 
 function initTasksPage(db) {

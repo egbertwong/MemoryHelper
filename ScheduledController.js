@@ -1,5 +1,43 @@
 function loadScheduledInterface() {
-    html = ``
+    $('#v-pills-scheduled').html(`
+    <div style="display: flex; flex-direction: row;">
+        <div class="page">
+            <div id="content-head">
+                <div class="head-title">Scheduled</div>
+            </div>
+
+            <div id="table-filter" style="margin-left: 16px; margin-right: 16px; height: 48px;">
+                <button type="button" class="btn btn-secondary btn-sm"
+                    style="float:left; margin-top: 16px; margin-bottom: 8px;"
+                    onclick="loadAddScheduledDetails(db)">添加</button>
+                <div class="dropdown" id="myDropdown"
+                    style="float:right; margin-top: 16px; margin-bottom: 8px;">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        全部
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" id="scheduled-filter"
+                        aria-labelledby="dropdownMenuButton">
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-area noselect" id="scheduled-list">
+                
+            </div>
+        </div>
+        <div class="div-details noselect" id="scheduled-details" style="display: none;">
+            <p class="detail-name" id="scheduled-details-title"></p>
+            <div class="divider"></div>
+            <div class="detail-content" id="scheduled-detail-content"></div>
+            <div class="divider"></div>
+            <div class="detail-foot">
+                <img src="./res/close.svg" style="margin: 12px;" onclick="hidescheduledItemDetails()">
+            </div>
+        </div>
+    </div>
+    `)
 }
 
 function initScheduledPage(db) {
