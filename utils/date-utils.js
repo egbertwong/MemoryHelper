@@ -3,7 +3,16 @@
  * @param {Date} mydate 
  */
 function getDateStr(mydate) {
-    date = mydate.getFullYear() + '-' + (mydate.getMonth() + 1) + '-' + mydate.getDate()
+    year = mydate.getFullYear()
+    month = mydate.getMonth() + 1
+    if (month >= 1 && month <= 9) {
+        month = '0' + month;
+    }
+    day = mydate.getDate()
+    if (day >= 1 && day <= 9) {
+        day = '0' + day;
+    }
+    date = year + '-' + month + '-' + day
     return date
 }
 
