@@ -10,7 +10,7 @@ function testFun(event, str, db) {
 
             // today_page.appendChild(head_title);
             
-            // initTodayPage(event.data.db)
+            initTodayPage(event.data.db)
             break
         case 'scheduled':
             initScheduledPage(event.data.db)

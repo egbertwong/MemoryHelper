@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');</script>
@@ -69,68 +68,6 @@
             <div class="tab-content" id="v-pills-tabContent" style="flex-grow: 1">
                 <div class="tab-pane fade show active" id="v-pills-today" role="tabpanel"
                     aria-labelledby="v-pills-today-tab">
-                    <div style="display: flex; flex-direction: row;">
-                        <div class="page">
-                            <div id="content-head">
-                                <div class="head-title">Today</div>
-                                <div class="head-date">2020年8月16日 星期日</div>
-                            </div>
-
-                            <div id="table-filter" style="margin-right: 16px; height: 48px;">
-                                <div class="dropdown" id="myDropdown"
-                                    style="float:right; margin-top: 16px; margin-bottom: 8px;">
-                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false" onclick="getTypes()">
-                                        全部
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" id="today-filter"
-                                        aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="javascript:onClickDropdown('male')">Male</a>
-                                        <a class="dropdown-item" href="javascript:onClickDropdown('female')">Female</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="table-area noselect" id="today-list">
-                                <div class="div-list-item" onclick="chooseItem('yes')">
-                                    <img src="./res/radio-false.svg" style="align-items: center;"
-                                        onclick="finishTodayItem('choose'); event.cancelBubble = true">
-                                    <p style="margin-left: 16px; height: 45px; line-height: 45px;">
-                                        测试项目
-                                        <span class="badge badge-type">英语</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="div-details noselect" id="today-details">
-                            <p class="detail-name">
-                                微积分第一讲极限与极限定义
-                                <span class="badge badge-type">英语</span>
-                                <span class="badge badge-status">首次学习</span>
-                            </p>
-                            <div class="divider"></div>
-                            <div class="detail-content">
-                                <div class="detail-block">
-                                    <div class="detail-item">
-                                        计划完成时间：今天
-                                    </div>
-                                    <div class="divider"></div>
-                                    <div class="detail-item">
-                                        计划完成时间：今天
-                                    </div>
-                                    <div class="divider"></div>
-                                    <div class="detail-item">
-                                        计划完成时间：今天
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="detail-foot">
-                                <img src="./res/close.svg" style="margin: 12px;" onclick="hideTodayItemDetails()">
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-scheduled" role="tabpanel"
                     aria-labelledby="v-pills-scheduled-tab">
@@ -156,50 +93,6 @@
     const db = new DBManager('MemoryDB')
 
     initTodayPage(db)
-    // db.addTypes('数学')
-    // db.addTypes('英语')
-    // db.queryType(1, function (myType) {
-    //     console.log(myType)
-    // })
-    // db.addTask('微积分第一章数列部分', '数学', 0, function(myTask) {
-    //     alert("My types: " + JSON.stringify(myTask));
-    // })
-
-    getTypes()
-
-    function chooseItem(str) {
-        console.log(str)
-        $('#today-details').css("display", "")
-    }
-
-    function finishToday(str) {
-        console.log(str)
-    }
-
-    function hideDetails() {
-        $('#today-details').css("display", "none")
-    }
-
-    function onClickDropdown(str) {
-        console.log(str)
-        $('#dropdownMenuButton').html(str)
-    }
-
-    function getTypes() {
-        db.getAllTypes(function (myTypes) {
-            filterHtml = `<a class="dropdown-item" href="javascript:onClickDropdown('全部')">全部</a>`
-            for (i = 0; i < myTypes.length; i++) {
-                filterHtml += `<a class="dropdown-item" href="javascript:onClickDropdown('${myTypes[i].name}')">${myTypes[i].name}</a>`
-            }
-            $('#today-filter').html(filterHtml)
-        })
-    }
-
-    function getTypeNameById(id) {
-        db.queryType(id, function (id) {
-
-        })
-    }
 
     $('#v-pills-today-tab').click({ str: 'today', db: db }, testFun);
     $('#v-pills-scheduled-tab').click({ str: 'scheduled', db: db }, testFun);
