@@ -218,7 +218,7 @@ function loadScheduledItemDetails(db, id) {
                 })
 
                 date = getDateStr(new Date())
-                let days_left = calculateDays(scheduled.scheduled_date, date)
+                let days_left = calculateDays(date, scheduled.scheduled_date)
 
                 $('#scheduled-detail-content').append(`
                     <div class="detail-block">
