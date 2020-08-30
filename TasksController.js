@@ -102,9 +102,9 @@ function loadAddTypeDetails(db) {
     $('#task-detail-content').html(`
         <form style="margin: 8px;">
             <div class="form-group">
-                <label for="add-type-typein-name">Type name</label>
+                <label for="add-type-typein-name">类型名称</label>
                 <input class="form-control" type="text" id="add-type-typein-name"
-                    placeholder="Type name">
+                    placeholder="类型名称">
             </div>
             <button type="button" class="btn btn-primary" onclick="commitAddTypeDetails(db)">提交</button>
         </form>`)
@@ -131,14 +131,14 @@ function loadAddTaskDetails(db) {
     $('#task-detail-content').html(`
         <form style="margin: 8px;">
             <div class="form-group">
-                <label for="add-task-choose-type">Type</label>
+                <label for="add-task-choose-type">类型</label>
                 <select class="form-control" id="add-task-choose-type">
                 </select>
             </div>
             <div class="form-group">
-                <label for="add-task-typein-name">Task name</label>
+                <label for="add-task-typein-name">任务名称</label>
                 <input class="form-control" type="text" id="add-task-typein-name"
-                    placeholder="Task name">
+                    placeholder="任务名称">
             </div>
             <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails(db)">提交</button>
         </form>`)
