@@ -35,7 +35,7 @@ function loadTasksInterface() {
                 <div class="detail-content" id="task-detail-content"></div>
                 <div class="divider"></div>
                 <div class="detail-foot">
-                    <img src="./res/close.svg" style="margin: 12px;" onclick="hideTaskItemDetails()">
+                    <img src="../../res/close.svg" style="margin: 12px;" onclick="hideTaskItemDetails()">
                 </div>
             </div>
         </div>

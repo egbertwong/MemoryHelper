@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <title>Memory Helper</title>
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');</script>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin=" anonymous">
+    <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+    <script>window.$ = window.jQuery = require('../../node_modules/jquery/dist/jquery.min.js');</script>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin=" anonymous">
     <!-- <link rel="stylesheet" href="node_modules/bootstrap" crossorigin=" anonymous"> -->
     <script
-        src="node_modules/popper.js/dist/umd/popper.min.js">require(node_modules / popper.js / dist / umd / popper.min.js)</script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="./utils/date-utils.js"></script>
-    <script src="./utils/item-utils.js"></script>
-    <script src="./TodayController.js"></script>
-    <script src="./ScheduledController.js"></script>
-    <script src="./CompletedController.js"></script>
-    <script src="./TasksController.js"></script>
-    <link rel="stylesheet" href="index.css">
+        src="../../node_modules/popper.js/dist/umd/popper.min.js">require(node_modules / popper.js / dist / umd / popper.min.js)</script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../utils/date-utils.js"></script>
+    <script src="../utils/item-utils.js"></script>
+    <script src="../controller/TodayController.js"></script>
+    <script src="../controller/ScheduledController.js"></script>
+    <script src="../controller/CompletedController.js"></script>
+    <script src="../controller/TasksController.js"></script>
+    <link rel="stylesheet" href="../style/index.css">
     <style type="text/css">
         a:link {
             text-decoration: none;
@@ -90,7 +90,7 @@
 
 <script src="index.js"></script>
 <script>
-    const DBManager = require('./DatabaseManager')
+    const DBManager = require('../manager/DatabaseManager')
     const db = new DBManager('MemoryDB')
 
     initTodayPage(db)

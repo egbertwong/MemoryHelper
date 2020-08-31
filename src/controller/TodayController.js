@@ -30,7 +30,7 @@ function loadTodayInterface() {
             <div class="detail-content" id="today-detail-content"></div>
             <div class="divider"></div>
             <div class="detail-foot">
-                <img src="./res/close.svg" style="margin: 12px;" onclick="hideTodayItemDetails()">
+                <img src="../../res/close.svg" style="margin: 12px;" onclick="hideTodayItemDetails()">
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@ function onClickTodayDropdown(db, id, name) {
 function addTodayListItem(scheduled_id, task_name, type_name) {
     $('#today-list').append(`
         <div class="div-list-item" onclick="loadTodayItemDetails(db, ${scheduled_id})">
-            <img src="./res/radio-false.svg" style="align-items: center;"
+            <img src="../../res/radio-false.svg" style="align-items: center;"
                 onclick="finishTodayItem(db, ${scheduled_id}, this); event.cancelBubble = true">
             <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                 ${task_name}

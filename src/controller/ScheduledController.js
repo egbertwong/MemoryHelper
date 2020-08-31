@@ -33,7 +33,7 @@ function loadScheduledInterface() {
             <div class="detail-content" id="scheduled-detail-content"></div>
             <div class="divider"></div>
             <div class="detail-foot">
-                <img src="./res/close.svg" style="margin: 12px;" onclick="hidescheduledItemDetails()">
+                <img src="../../res/close.svg" style="margin: 12px;" onclick="hidescheduledItemDetails()">
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@ function onClickScheduledDropdown(db, id, name) {
 function addScheduledListItem(scheduled_id, task_name, type_name) {
     $('#scheduled-list').append(`
         <div class="div-list-item" onclick="loadScheduledItemDetails(db, ${scheduled_id})">
-            <img src="./res/radio-false.svg" style="align-items: center;"
+            <img src="../../res/radio-false.svg" style="align-items: center;"
                 onclick="finishScheduledItem(db, ${scheduled_id}, this); event.cancelBubble = true">
             <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                 ${task_name}
