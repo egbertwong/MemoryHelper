@@ -317,6 +317,12 @@ function loadTaskItemDetails(db, id) {
                 </div>
             `)
 
+            $('#task-detail-content').append(`
+            <div style="display: flex; flex-direction: row; margin: 8px;">
+                <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails(db)" style="flex: 1; margin: 4px;">提交</button>
+                <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails(db)" style="flex: 1; margin: 4px;">提交</button>
+            </div>
+            `)
         }
     })
 }
