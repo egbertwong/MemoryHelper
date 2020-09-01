@@ -22,7 +22,7 @@ function testFun(event, str, db) {
             initTasksPage(event.data.db)
             break
         case 'about':
-            
+            initAboutPage(event.data.db)
             break
     }
 }
