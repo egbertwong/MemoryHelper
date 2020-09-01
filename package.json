@@ -19,9 +19,9 @@
       "oneClick": false,
       "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "./res/icon.ico",
-      "uninstallerIcon": "./res/icon.ico",
-      "installerHeaderIcon": "./res/icon.ico",
+      "installerIcon": "./res/icons/todo-256.ico",
+      "uninstallerIcon": "./res/icons/uninstall.ico",
+      "installerHeaderIcon": "./res/icons/todo-256.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Music Player"
@@ -48,10 +48,10 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "icon": "./res/icons/todo-256.ico"
     },
     "win": {
-      "icon": "build/icons/icon.ico",
+      "icon": "./res/icons/todo-256.ico",
       "target": [
         {
           "target": "nsis",
@@ -62,7 +62,7 @@
       ]
     },
     "linux": {
-      "icon": "build/icons"
+      "icon": "./res/icons/todo-256.ico"
     },
     "electronDownload": {
       "mirror": "https://npm.taobao.org/mirrors/electron/"
