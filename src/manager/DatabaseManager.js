@@ -13,8 +13,8 @@ class DBManager {
         this.#dbName = dbName
         this.db = new Dexie(dbName)
         this.db.version(1).stores({
-            types: '++id, name',
-            tasks: '++id, name, type_id, status, first_date, last_date, next_date, complete_times, delayed_times, rate',
+            types: '++id, name, inValid',
+            tasks: '++id, name, type_id, status, first_date, last_date, next_date, complete_times, delayed_times, rate, inValid',
             scheduled: '++id, name_id, type_id, status, scheduled_date',
             completed: '++id, name_id, type_id, status, scheduled_date, completed_date, delay_days, rate'
         })
@@ -55,12 +55,9 @@ class DBManager {
 
     updateTypes(id, newName, callback) {
         id = parseInt(id)
-        this.db.transaction('rw', this.db.types, function () {
 
-            this.db.types.update(id, {name: newName}).then((updated) =>{
-                callback(updated)
-            }) 
-
+        this.db.types.update(id, {name: newName}).then((updated) =>{
+            callback(updated)
         }).catch(e => {
             console.error(e.stack);
         });
@@ -69,12 +66,8 @@ class DBManager {
     inValidTypes(id, callback) {
         id = parseInt(id)
 
-        this.db.transaction('rw', this.db.types, function () {
-
-            this.db.types.update(id, {inValid: 0}).then((updated) =>{
-                callback(updated)
-            })
-
+        this.db.types.update(id, {inValid: 0}).then((updated) =>{
+            callback(updated)
         }).catch(e => {
             console.error(e.stack);
         });

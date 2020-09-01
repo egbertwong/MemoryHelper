@@ -98,7 +98,7 @@ async function loadTasksList(db, cur_type) {
 
     db.loadTasks((task) => {
         console.log('loadTasksList loadTasks callback')
-        db.queryType(task.type_id, (type) => { 
+        db.queryType(task.type_id, (type) => {
             if (cur_type == 0 || cur_type == type.id) {
                 addTaskListItem(task.id, task.name, type.name)
             }
@@ -121,6 +121,7 @@ function loadAddTypeDetails(db) {
                     placeholder="类型名称">
             </div>
             <button type="button" class="btn btn-primary" onclick="commitAddTypeDetails(db)">提交</button>
+            <img src="../../res/error.svg" id="task-error" style="margin: 12px; display: none;">
         </form>`)
 }
 
@@ -160,6 +161,7 @@ function loadUpdateTypeDetails(db) {
             onclick="commitDeleteTypeDetails(db)">
             删除
         </button>
+        <img src="../../res/error.svg" id="task-error" style="margin: 12px; display: none;">
     </form>
     `)
     db.getAllTypes((type) => {
@@ -183,9 +185,11 @@ function commitUpdateTypeDetails(db) {
 
     db.updateTypes(id, newName, (updated) => {
         if (updated) {
+            loadTasksFilter(db)
+            loadTasksList(db, 0)
             loadUpdateTypeDetails(db)
         } else {
-            // error
+            showTaskError()
         }
     })
 }
@@ -199,9 +203,11 @@ function commitDeleteTypeDetails(db) {
 
     db.inValidTypes(id, (updated) => {
         if (updated) {
+            loadTasksFilter(db)
+            loadTasksList(db, 0)
             loadUpdateTypeDetails(db)
         } else {
-            // error
+            showTaskError()
         }
     })
 }
@@ -225,6 +231,7 @@ function loadAddTaskDetails(db) {
                     placeholder="任务名称">
             </div>
             <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails(db)">提交</button>
+            <img src="../../res/error.svg" id="task-error" style="margin: 12px; display: none;">
         </form>`)
     db.getAllTypes((type) => {
         if (type.inValid != null) {
@@ -248,11 +255,12 @@ function commitAddTaskDetails(db) {
 
     db.addTask(name, type_id, (task) => {
         if (task.name == name) {
-            db.queryType(task.type_id, (type) => { 
+            db.queryType(task.type_id, (type) => {
                 addTaskListItem(task.id, task.name, type.name)
             })
+            loadAddTaskDetails(db)
         } else {
-            console.log('fail')
+            showTaskError()
         }
     })
 }
@@ -271,7 +279,7 @@ function loadTaskItemDetails(db, id) {
                 ${task.name}
                 <span class="badge badge-status">${getStatusById(task.status)}</span>
             `)
-            db.queryType(task.type_id, (type) => { 
+            db.queryType(task.type_id, (type) => {
                 if (type.name != null) {
                     $('#task-details-title').append(`<span class="badge badge-type">${type.name}</span>`)
                 }
@@ -319,6 +327,10 @@ function chooseTaskItem(id) {
 
 function addTask(name, type_id, status) {
     //
+}
+
+function showTaskError() {
+    $('#task-error').css("display", "")
 }
 
 function hideTaskItemDetails() {
