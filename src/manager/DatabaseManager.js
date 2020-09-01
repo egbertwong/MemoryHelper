@@ -53,12 +53,31 @@ class DBManager {
         });
     }
 
-    updateTypes(oldName, newName) {
+    updateTypes(id, newName, callback) {
+        id = parseInt(id)
+        this.db.transaction('rw', this.db.types, function () {
 
+            this.db.types.update(id, {name: newName}).then((updated) =>{
+                callback(updated)
+            }) 
+
+        }).catch(e => {
+            console.error(e.stack);
+        });
     }
 
-    deleteTypes(name) {
+    inValidTypes(id, callback) {
+        id = parseInt(id)
 
+        this.db.transaction('rw', this.db.types, function () {
+
+            this.db.types.update(id, {inValid: 0}).then((updated) =>{
+                callback(updated)
+            })
+
+        }).catch(e => {
+            console.error(e.stack);
+        });
     }
 
     getAllTypes(callback) {

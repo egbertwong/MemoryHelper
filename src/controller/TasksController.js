@@ -21,9 +21,19 @@ function loadTasksInterface() {
                             aria-labelledby="dropdownMenuButton">
                         </div>
                     </div>
-                    <button type="button" class="btn btn-secondary btn-sm"
-                        style="float:right; margin-top: 16px; margin-bottom: 8px; margin-right: 8px;"
-                        onclick="loadAddTypeDetails(db)">编辑类型</button>
+                    <div class="dropdown" id="myDropdown"
+                        style="float:right; margin-top: 16px; margin-bottom: 8px; margin-right: 8px;">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                            id="taskDropdownButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            编辑类型
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" id="edit-type-options"
+                            aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="javascript:loadAddTypeDetails(db)">新增</a>
+                            <a class="dropdown-item" href="javascript:loadUpdateTypeDetails(db)">修改</a>
+                        </div>
+                    </div>
                 </div>
     
                 <div class="table-area noselect" id="tasks-list">
@@ -50,8 +60,12 @@ function initTasksPage(db) {
 }
 
 function loadTasksFilter(db) {
-    $('#tasks-filter').html(`<a class="dropdown-item" href="javascript:onClickTaskDropdown(db, 0, '全部)">全部</a>`)
+    $('#tasks-filter').html(`<a class="dropdown-item" href="javascript:onClickTaskDropdown(db, 0, '全部')">全部</a>`)
     db.getAllTypes((type) => {
+        if (type.inValid != null) {
+            return
+        }
+
         $('#tasks-filter').append(`
             <a class="dropdown-item" href="javascript:onClickTaskDropdown(db, ${type.id}, '${type.name}')">${type.name}</a>
         `)
@@ -122,6 +136,76 @@ function commitAddTypeDetails(db) {
     })
 }
 
+function loadUpdateTypeDetails(db) {
+    $('#task-details').css("display", "")
+    $('#task-details-title').html('修改类型')
+
+    $('#task-detail-content').html(`
+    <form style="margin: 8px;">
+        <div class="form-group">
+            <label for="edit-choose-type">类型</label>
+            <select class="form-control" id="edit-choose-type">
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="edit-typein-type-name">修改名称</label>
+            <input class="form-control" type="text" id="edit-typein-type-name"
+                placeholder="修改名称">
+        </div>
+        <button type="button" class="btn btn-primary"
+            onclick="commitUpdateTypeDetails(db)">
+            提交
+        </button>
+        <button type="button" class="btn btn-primary"
+            onclick="commitDeleteTypeDetails(db)">
+            删除
+        </button>
+    </form>
+    `)
+    db.getAllTypes((type) => {
+        if (type.inValid != null) {
+            return
+        }
+
+        $('#edit-choose-type').append(`
+            <option value=${type.id}>${type.name}</option>
+        `)
+    })
+}
+
+function commitUpdateTypeDetails(db) {
+    id = $('#edit-choose-type').val()
+    newName = $('#edit-typein-type-name').val()
+
+    if (id == null || newName == null) {
+        return
+    }
+
+    db.updateTypes(id, newName, (updated) => {
+        if (updated) {
+            loadUpdateTypeDetails(db)
+        } else {
+            // error
+        }
+    })
+}
+
+function commitDeleteTypeDetails(db) {
+    id = $('#edit-choose-type').val()
+
+    if (id == null) {
+        return
+    }
+
+    db.inValidTypes(id, (updated) => {
+        if (updated) {
+            loadUpdateTypeDetails(db)
+        } else {
+            // error
+        }
+    })
+}
+
 /**
  * 
  */
@@ -143,6 +227,10 @@ function loadAddTaskDetails(db) {
             <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails(db)">提交</button>
         </form>`)
     db.getAllTypes((type) => {
+        if (type.inValid != null) {
+            return
+        }
+
         $('#add-task-choose-type').append(`
             <option value=${type.id}>${type.name}</option>
         `)
