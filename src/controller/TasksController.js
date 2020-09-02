@@ -319,12 +319,90 @@ function loadTaskItemDetails(db, id) {
 
             $('#task-detail-content').append(`
             <div style="display: flex; flex-direction: row; margin: 8px;">
-                <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails(db)" style="flex: 1; margin: 4px;">提交</button>
-                <button type="button" class="btn btn-primary" onclick="commitAddTaskDetails(db)" style="flex: 1; margin: 4px;">提交</button>
+                <button type="button" class="btn btn-primary" onclick="loadEditTaskDetails(db, ${task.id})" style="flex: 1; margin: 4px;">修改</button>
+                <button type="button" class="btn btn-danger" style="flex: 1; margin: 4px;"
+                    data-toggle="modal" data-target="#deleteTaskConfirm">删除</button>
+            </div>
+            `)
+
+            $('#task-detail-content').append(`
+            <div class="modal fade" id="deleteTaskConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteTaskConfirmLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteTaskConfirmLabel">提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    确认删除任务吗
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">删除</button>
+                  </div>
+                </div>
+              </div>
             </div>
             `)
         }
     })
+}
+
+function loadEditTaskDetails(db, id) {
+    id = parseInt(id)
+    $('#task-details').css("display", "")
+    $('#task-detail-content').html(``)
+    let task_id = parseInt(id, 10)
+    db.getTask(task_id, (task) => {
+        if (task.id != null) {
+            $('#task-details-title').html(`
+                ${task.name}
+                <span class="badge badge-status">${getStatusById(task.status)}</span>
+            `)
+            db.queryType(task.type_id, (type) => {
+                if (type.name != null) {
+                    $('#task-details-title').append(`<span class="badge badge-type">${type.name}</span>`)
+                }
+            })
+
+            $('#task-detail-content').append(`
+            <form style="margin: 8px;">
+                <div class="form-group">
+                    <label for="edit-task-choose-type">类型</label>
+                    <select class="form-control" id="edit-task-choose-type">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-task-typein-name">旧名称：${task.name}（不填则不修改）</label>
+                    <input class="form-control" type="text" id="edit-task-typein-name"
+                        placeholder="新名称">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="commitEditTaskDetails(db, ${id})">提交</button>
+                <img src="../../res/error.svg" id="task-error" style="margin: 12px; display: none;">
+            </form>
+            `)
+
+            db.getAllTypes((type) => {
+                if (type.inValid != null) {
+                    return
+                }
+        
+                $('#edit-task-choose-type').append(`
+                    <option value=${type.id}>${type.name}</option>
+                `)
+
+                if (task.type_id == type.id) {
+                    $('#edit-task-choose-type').val(task.type_id)
+                }
+            })  
+        }
+    })
+}
+
+function commitEditTaskDetails(db, id) {
+
 }
 
 function chooseTaskItem(id) {
