@@ -1,3 +1,5 @@
+const { name } = require("sql.js")
+
 function loadTasksInterface() {
     $('#v-pills-tasks').html(`
         <div style="display: flex; flex-direction: row;">
@@ -79,12 +81,12 @@ function onClickTaskDropdown(db, id, name) {
 
 function addTaskListItem(task_id, task_name, type_name) {
     $('#tasks-list').append(`
-        <div class="div-list-item" onclick="loadTaskItemDetails(db, ${task_id})">
+        <li class="div-list-item" onclick="loadTaskItemDetails(db, ${task_id}, this);">
             <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                 ${task_name}
                 <span class="badge badge-type">${type_name}</span>
             </p>
-        </div>
+        </li>
     `)
 }
 
@@ -269,7 +271,7 @@ function commitAddTaskDetails(db) {
  * Open the detail column on the right and show task details
  * @param {task id} id 
  */
-function loadTaskItemDetails(db, id) {
+function loadTaskItemDetails(db, id, dom) {
     $('#task-details').css("display", "")
     $('#task-detail-content').html(``)
     let task_id = parseInt(id, 10)
@@ -319,7 +321,7 @@ function loadTaskItemDetails(db, id) {
 
             $('#task-detail-content').append(`
             <div style="display: flex; flex-direction: row; margin: 8px;">
-                <button type="button" class="btn btn-primary" onclick="loadEditTaskDetails(db, ${task.id})" style="flex: 1; margin: 4px;">修改</button>
+                <button type="button" class="btn btn-primary" onclick="loadEditTaskDetails(db, ${task.id}, ${$(dom)});" style="flex: 1; margin: 4px;">修改</button>
                 <button type="button" class="btn btn-danger" style="flex: 1; margin: 4px;"
                     data-toggle="modal" data-target="#deleteTaskConfirm">删除</button>
             </div>
@@ -346,11 +348,33 @@ function loadTaskItemDetails(db, id) {
               </div>
             </div>
             `)
+
+            $('#task-detail-content').append(`
+            <div class="modal fade" id="deleteTaskFail" tabindex="-1" role="dialog" aria-labelledby="deleteTaskFailLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteTaskFailLabel">提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    删除失败，请重新进入页面查看
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            `)
         }
     })
 }
 
-function loadEditTaskDetails(db, id) {
+function loadEditTaskDetails(db, id, dom) {
+    dom = JSON.stringify(dom).replace(/""/g,"’")
     id = parseInt(id)
     $('#task-details').css("display", "")
     $('#task-detail-content').html(``)
@@ -379,7 +403,7 @@ function loadEditTaskDetails(db, id) {
                     <input class="form-control" type="text" id="edit-task-typein-name"
                         placeholder="新名称">
                 </div>
-                <button type="button" class="btn btn-primary" onclick="commitEditTaskDetails(db, ${id})">提交</button>
+                <button type="button" class="btn btn-primary" onclick="commitEditTaskDetails(db, ${id}, ${dom})">提交</button>
                 <img src="../../res/error.svg" id="task-error" style="margin: 12px; display: none;">
             </form>
             `)
@@ -401,8 +425,47 @@ function loadEditTaskDetails(db, id) {
     })
 }
 
-function commitEditTaskDetails(db, id) {
+function commitEditTaskDetails(db, id, dom) {
+    dom = JSON.stringify(dom).replace(/""/g,"’")
+    name = $('#edit-task-typein-name').val()
+    type_id = $('#edit-task-choose-type').val()
+    if (name == null || type_id == null) {
+        return
+    }
 
+    db.getTask(id, (task) => {
+        if (name != null) {
+            task.name = name
+        }
+
+        if (type_id != null) {
+            task.type_id = type_id
+        }
+
+        db.updateTask(task, (updated) => {
+            if (updated) {
+                db.queryType(task.type_id, (type) => {
+                    // $(dom).children('p').html(`
+                    //     ${task.name}
+                    //     <span class="badge badge-type">${type.name}</span>
+                    // `)
+                })
+                
+                loadTaskItemDetails(db, id, dom)
+            }
+        })
+    })
+}
+
+function commitDeleteTaskDetails(db, id, dom) {
+    dom = JSON.stringify(dom).replace(/""/g,"’")
+    db.inValidTask(id, (updated) => {
+        if (updated) {
+            //
+        } else {
+            $('#deleteTaskFail').modal('show')
+        }
+    })
 }
 
 function chooseTaskItem(id) {

@@ -121,6 +121,7 @@ class DBManager {
     updateTask(task, callback) {
         this.db.transaction('rw', this.db.types, this.db.tasks, function* () {
             this.db.tasks.update(task.id, task).then(function (updated) {
+                callback(updated)
                 console.log('isUpdated:' + updated)
             })
         }).catch(e => {
@@ -128,13 +129,11 @@ class DBManager {
         });
     }
 
-    testupdateTask(task, callback) {
-        this.db.transaction('rw', this.db.types, this.db.tasks, function* () {
-            this.db.tasks.update(1, task).then(function (updated) {
-                console.log('isUpdated:' + updated)
-                // let myTasks = yield this.db.tasks.get(1)
-                // callback(myTasks)
-            })
+    inValidTask(id, callback) {
+        id = parseInt(id)
+
+        this.db.tasks.update(id, { inValid: 0 }).then(function (updated) {
+            callback(updated)
         }).catch(e => {
             console.error(e.stack);
         });
