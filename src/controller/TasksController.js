@@ -1,5 +1,3 @@
-const { name } = require("sql.js")
-
 function loadTasksInterface() {
     $('#v-pills-tasks').html(`
         <div style="display: flex; flex-direction: row;">
@@ -271,7 +269,11 @@ function commitAddTaskDetails(db) {
  * Open the detail column on the right and show task details
  * @param {task id} id 
  */
-function loadTaskItemDetails(db, id, dom) {
+function loadTaskItemDetails(db, id, dom, index) {
+    if (index == null) {
+        index = $("#tasks-list li").index($(dom))
+    }
+
     $('#task-details').css("display", "")
     $('#task-detail-content').html(``)
     let task_id = parseInt(id, 10)
@@ -321,7 +323,7 @@ function loadTaskItemDetails(db, id, dom) {
 
             $('#task-detail-content').append(`
             <div style="display: flex; flex-direction: row; margin: 8px;">
-                <button type="button" class="btn btn-primary" onclick="loadEditTaskDetails(db, ${task.id}, ${$(dom)});" style="flex: 1; margin: 4px;">修改</button>
+                <button type="button" class="btn btn-primary" onclick="loadEditTaskDetails(db, ${task.id}, ${index});" style="flex: 1; margin: 4px;">修改</button>
                 <button type="button" class="btn btn-danger" style="flex: 1; margin: 4px;"
                     data-toggle="modal" data-target="#deleteTaskConfirm">删除</button>
             </div>
@@ -373,8 +375,8 @@ function loadTaskItemDetails(db, id, dom) {
     })
 }
 
-function loadEditTaskDetails(db, id, dom) {
-    dom = JSON.stringify(dom).replace(/""/g,"’")
+function loadEditTaskDetails(db, id, index) {
+    index = parseInt(index)
     id = parseInt(id)
     $('#task-details').css("display", "")
     $('#task-detail-content').html(``)
@@ -403,7 +405,7 @@ function loadEditTaskDetails(db, id, dom) {
                     <input class="form-control" type="text" id="edit-task-typein-name"
                         placeholder="新名称">
                 </div>
-                <button type="button" class="btn btn-primary" onclick="commitEditTaskDetails(db, ${id}, ${dom})">提交</button>
+                <button type="button" class="btn btn-primary" onclick="commitEditTaskDetails(db, ${id}, ${index})">提交</button>
                 <img src="../../res/error.svg" id="task-error" style="margin: 12px; display: none;">
             </form>
             `)
@@ -425,8 +427,8 @@ function loadEditTaskDetails(db, id, dom) {
     })
 }
 
-function commitEditTaskDetails(db, id, dom) {
-    dom = JSON.stringify(dom).replace(/""/g,"’")
+function commitEditTaskDetails(db, id, index) {
+    index = parseInt(index)
     name = $('#edit-task-typein-name').val()
     type_id = $('#edit-task-choose-type').val()
     if (name == null || type_id == null) {
@@ -444,21 +446,23 @@ function commitEditTaskDetails(db, id, dom) {
 
         db.updateTask(task, (updated) => {
             if (updated) {
-                db.queryType(task.type_id, (type) => {
-                    // $(dom).children('p').html(`
-                    //     ${task.name}
-                    //     <span class="badge badge-type">${type.name}</span>
-                    // `)
+                db.getTask(task.id, (task) => {
+                    db.queryType(task.type_id, (type) => {
+                        $('#tasks-list li').eq(index).children('p').html(`
+                            ${task.name}
+                            <span class="badge badge-type">${type.name}</span>
+                        `)
+                })
                 })
                 
-                loadTaskItemDetails(db, id, dom)
+                
+                loadTaskItemDetails(db, id, index)
             }
         })
     })
 }
 
-function commitDeleteTaskDetails(db, id, dom) {
-    dom = JSON.stringify(dom).replace(/""/g,"’")
+function commitDeleteTaskDetails(db, id, index) {
     db.inValidTask(id, (updated) => {
         if (updated) {
             //

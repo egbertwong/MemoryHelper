@@ -1,5 +1,6 @@
 const Dexie = require('dexie')
 const { contains } = require('jquery')
+const { call } = require('sql.js')
 
 /**
  * Database manager. Pack my function of database.
@@ -84,11 +85,10 @@ class DBManager {
     }
 
     queryType(id, callback) {
-        this.db.transaction('rw', this.db.types, this.db.tasks, function* () {
-            // Query:
-            let myType = yield this.db.types.get(id)
-
-            callback(myType)
+        id = parseInt(id)
+        this.db.types.get(id, (type) => {
+            // console.log('type:' + )
+            callback(type)
         }).catch(e => {
             console.error(e.stack);
         });
