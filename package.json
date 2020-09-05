@@ -24,7 +24,7 @@
       "installerHeaderIcon": "./res/icons/todo-256.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Music Player"
+      "shortcutName": "Memory Helper"
     },
     "publish": [
       {
