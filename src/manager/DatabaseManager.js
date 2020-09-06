@@ -75,10 +75,11 @@ class DBManager {
     }
 
     getAllTypes(callback) {
-        this.db.transaction('rw', this.db.types, this.db.tasks, function* () {
-            this.db.types.each(function (type) {
-                callback(type)
-            })
+        this.db.types.each(function (type) {
+            if (type.inValid != null) {
+                return
+            }
+            callback(type)
         }).catch(e => {
             console.error(e.stack);
         });
@@ -149,29 +150,14 @@ class DBManager {
     }
 
     loadTasks(callback) {
-        // this.db.tasks.each((task) => {
-        //     console.log('loadTasks:' + task.name)
-        //     callback(task)
-        // })
         console.log('loadTasks')
-        this.db.transaction('rw', this.db.tasks, this.db.types, function () {
-            // // Make sure we have something in DB:
-            // if ((yield this.db.tasks.where('name').equals(name).count()) === 0) {
-            //     let id = yield this.db.tasks.add({ name: name, type_id: type_id, status: 0 });
-            //     alert(`Added tasks with id ${id}`);
-            // }
-            console.log('loadTasks transaction')
-            this.db.tasks.each(function (task) {
-                console.log('loadTasks each')
-                callback(task)
-                // let type = db.types.where('id').equals(task.type_id)
-                // console.log('loadTasks111:' + type.name)
-                // if (type != null) {
-                //     task.type_id = type.name
-                // }
-                // console.log('loadTasks:' + task)
-                // callback(task)
-            })
+        this.db.tasks.each((task) => {
+            if (task.inValid != null) {
+                return
+            }
+            
+            console.log('loadTasks each')
+            callback(task)
         }).catch(e => {
             console.error(e.stack);
         });
@@ -201,13 +187,8 @@ class DBManager {
     deleteScheduled(id, callback) {
         console.log('deleta id:' + id)
         id = parseInt(id)
-        // this.db.transaction('rw', this.db.tasks, this.db.types, this.db.scheduled, function () {
-        //     this.db.scheduled.where(indexId).equals(id).delete()
-        // }).catch(e => {
-        //     console.error(e.stack);
-        // });
+
         this.db.scheduled.where('id').equals(id).delete()
-        // this.db.scheduled.delete(id)
     }
 
     loadScheduleds(callback) {

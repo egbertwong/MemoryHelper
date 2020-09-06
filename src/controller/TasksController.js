@@ -92,7 +92,7 @@ function addTaskListItem(task_id, task_name, type_name) {
  * 
  * @param {DBManager} db 
  */
-async function loadTasksList(db, cur_type) {
+function loadTasksList(db, cur_type) {
     $('#tasks-list').html(``)
     let html = ``
 
@@ -176,10 +176,11 @@ function loadUpdateTypeDetails(db) {
 }
 
 function commitUpdateTypeDetails(db) {
-    id = $('#edit-choose-type').val()
+    id = parseInt($('#edit-choose-type').val())
     newName = $('#edit-typein-type-name').val()
 
-    if (id == null || newName == null) {
+    if (id == null || newName == null || newName == "") {
+        showTaskError()
         return
     }
 
@@ -344,7 +345,7 @@ function loadTaskItemDetails(db, id, dom, index) {
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">删除</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="commitDeleteTaskDetails(db, ${task.id}, ${index})">删除</button>
                   </div>
                 </div>
               </div>
@@ -401,9 +402,9 @@ function loadEditTaskDetails(db, id, index) {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="edit-task-typein-name">旧名称：${task.name}（不填则不修改）</label>
+                    <label for="edit-task-typein-name">名称</label>
                     <input class="form-control" type="text" id="edit-task-typein-name"
-                        placeholder="新名称">
+                        placeholder="新名称" value="${task.name}">
                 </div>
                 <button type="button" class="btn btn-primary" onclick="commitEditTaskDetails(db, ${id}, ${index})">提交</button>
                 <img src="../../res/error.svg" id="task-error" style="margin: 12px; display: none;">
@@ -465,7 +466,8 @@ function commitEditTaskDetails(db, id, index) {
 function commitDeleteTaskDetails(db, id, index) {
     db.inValidTask(id, (updated) => {
         if (updated) {
-            //
+            $('#tasks-list li').eq(index).remove()
+            $('#task-details').css("display", "none")
         } else {
             $('#deleteTaskFail').modal('show')
         }
