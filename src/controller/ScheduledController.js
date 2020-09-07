@@ -63,14 +63,14 @@ function onClickScheduledDropdown(db, id, name) {
 
 function addScheduledListItem(scheduled_id, task_name, type_name) {
     $('#scheduled-list').append(`
-        <div class="div-list-item" onclick="loadScheduledItemDetails(db, ${scheduled_id})">
+        <li class="div-list-item" onclick="loadScheduledItemDetails(db, ${scheduled_id}, this)">
             <img src="../../res/radio-false.svg" style="align-items: center;"
                 onclick="finishScheduledItem(db, ${scheduled_id}, this); event.cancelBubble = true">
             <p style="margin-left: 16px; height: 45px; line-height: 45px;">
                 ${task_name}
                 <span class="badge badge-type">${type_name}</span>
             </p>
-        </div>
+        </li>
     `)
 }
 
@@ -206,7 +206,11 @@ function commitAddScheduledDetails(db) {
     })
 }
 
-function loadScheduledItemDetails(db, id) {
+function loadScheduledItemDetails(db, id, dom, index) {
+    if (index == null) {
+        index = $("#scheduled-list li").index($(dom))
+    }
+
     $('#scheduled-details').css("display", "")
     $('#scheduled-detail-content').html(``)
     db.getScheduled(id, (scheduled) => {
@@ -236,10 +240,73 @@ function loadScheduledItemDetails(db, id) {
                         </div>
                     </div>
                 `)
+
+                $('#scheduled-detail-content').append(`
+                    <div style="display: flex; flex-direction: row; margin: 8px;">
+                        <button type="button" class="btn btn-primary" onclick="loadEditScheduledDetails(db, ${scheduled.id}, ${index});" style="flex: 1; margin: 4px;">修改</button>
+                        <button type="button" class="btn btn-danger" style="flex: 1; margin: 4px;"
+                            data-toggle="modal" data-target="#deleteScheduledConfirm">删除</button>
+                    </div>
+                `)
+
+                $('#scheduled-detail-content').append(`
+                <div class="modal fade" id="deleteScheduledConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteScheduledConfirmLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteScheduledConfirmLabel">提示</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        确认删除计划吗
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="commitDeleteScheduledDetails(db, ${task.id}, ${index})">删除</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                `)
+
+                $('#scheduled-detail-content').append(`
+                <div class="modal fade" id="deleteScheduledFail" tabindex="-1" role="dialog" aria-labelledby="deleteScheduledFailLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteScheduledFailLabel">提示</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        删除失败，请重新进入页面查看
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                `)
             }
 
         })
     })
+
+}
+
+function loadEditScheduledDetails(db, id, index) {
+
+}
+
+function commitEditScheduledDetails(db, id, index) {
+
+}
+
+function commitDeleteScheduledDetails(db, id, index) {
 
 }
 
