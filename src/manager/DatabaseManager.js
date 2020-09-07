@@ -151,13 +151,13 @@ class DBManager {
 
     loadTasks(callback) {
         console.log('loadTasks')
-        this.db.tasks.each((task) => {
-            if (task.inValid != null) {
-                return
-            }
-            
-            console.log('loadTasks each')
-            callback(task)
+        this.db.transaction('rw', this.db.tasks, this.db.types, function () {
+
+            console.log('loadTasks transaction')
+            this.db.tasks.each(function (task) {
+                console.log('loadTasks each')
+                callback(task)
+            })
         }).catch(e => {
             console.error(e.stack);
         });
