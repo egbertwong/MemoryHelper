@@ -457,7 +457,7 @@ function commitEditTaskDetails(db, id, index) {
                 })
                 
                 
-                loadTaskItemDetails(db, id, index)
+                loadTaskItemDetails(db, id, null, index)
             }
         })
     })
