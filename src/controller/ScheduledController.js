@@ -105,7 +105,7 @@ function loadAddScheduledTypes(db) {
     })
 
     $('#add-scheduled-choose-type').change(() => {
-        loadAddScheduledNamesByType(db, $('#add-scheduled-choose-type').val())
+        loadAddScheduledNamesByType(db, parseInt($('#add-scheduled-choose-type').val()))
     })
 }
 
@@ -126,7 +126,7 @@ function loadAddScheduledNamesByType(db, cur_type) {
     })
 
     $('#add-scheduled-choose-task').change(() => {
-        loadAddScheduledStatusByTask(db, $('#add-scheduled-choose-task').val())
+        loadAddScheduledStatusByTask(db, parseInt($('#add-scheduled-choose-task').val()))
     })
 }
 
@@ -182,26 +182,26 @@ function loadAddScheduledDetails(db) {
 }
 
 function commitAddScheduledDetails(db) {
-    name_id = parseInt($('#add-scheduled-choose-task').val(), 10)
-    type_id = parseInt($('#add-scheduled-choose-type').val(), 10)
-    status = parseInt($('#add-scheduled-status').val(), 10)
+    name_id = parseInt($('#add-scheduled-choose-task').val())
+    type_id = parseInt($('#add-scheduled-choose-type').val())
+    status = parseInt($('#add-scheduled-status').val())
     scheduled_date = $('#add-scheduled-date').val()
 
     status = parseInt(status)
 
     db.addScheduled(name_id, type_id, status, scheduled_date, (scheduled) => {
         if (scheduled != null) {
-            let cur_type = $('#scheduled-filter').val()
-            if (cur_type == 0 || cur_type == scheduled.type_id) {
-                db.queryType(scheduled.type_id, (type) => {
-                    db.getTask(scheduled.name_id, (task) => {
-                        addScheduledListItem(scheduled.id, task.name, type.name)
-                        task.next_date = scheduled_date
+            let cur_type = parseInt($('#scheduled-filter').val())
+            db.queryType(scheduled.type_id, (type) => {
+                db.getTask(scheduled.name_id, (task) => {
+                    addScheduledListItem(scheduled.id, task.name, type.name)
+                    task.next_date = scheduled_date
 
-                        db.updateTask(task)
+                    db.updateTask(task, (task) => {
+
                     })
                 })
-            }
+            })
         }
     })
 }
@@ -252,7 +252,7 @@ function finishScheduledItem(db, id, dom) {
         db.addCompleted(
             scheduled.name_id,
             scheduled.type_id,
-            scheduled.status,
+            parseInt(scheduled.status),
             scheduled.scheduled_date,
             completed_date,
             (completed) => {
