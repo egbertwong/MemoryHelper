@@ -196,7 +196,7 @@ function commitUpdateTypeDetails(db) {
 }
 
 function commitDeleteTypeDetails(db) {
-    id = $('#edit-choose-type').val()
+    id = parseInt($('#edit-choose-type').val())
 
     if (id == null) {
         return
@@ -247,7 +247,7 @@ function loadAddTaskDetails(db) {
 }
 
 function commitAddTaskDetails(db) {
-    let type_id = parseInt($('#add-task-choose-type').val(), 10)
+    let type_id = parseInt($('#add-task-choose-type').val())
     let name = $('#add-task-typein-name').val()
     console.log('type:' + type_id + ', name:' + name)
     if (name == null) {
@@ -431,7 +431,7 @@ function loadEditTaskDetails(db, id, index) {
 function commitEditTaskDetails(db, id, index) {
     index = parseInt(index)
     name = $('#edit-task-typein-name').val()
-    type_id = $('#edit-task-choose-type').val()
+    type_id = parseInt($('#edit-task-choose-type').val())
     if (name == null || type_id == null) {
         return
     }
