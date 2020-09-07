@@ -38,7 +38,7 @@ class DBManager {
 
     /************************ functions of types *************************/
     addType(name, callback) {
-        this.db.transaction('rw', this.db.types, function* () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
 
             if ((yield this.db.types.where('name').equals(name).count()) === 0) {
                 let id = yield this.db.types.add({ name: name });
@@ -75,11 +75,14 @@ class DBManager {
     }
 
     getAllTypes(callback) {
-        this.db.types.each(function (type) {
-            if (type.inValid != null) {
-                return
-            }
-            callback(type)
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
+            this.db.types.each(function (type) {
+                if (type.inValid != null) {
+                    return
+                }
+
+                callback(type)
+            })
         }).catch(e => {
             console.error(e.stack);
         });
@@ -97,7 +100,7 @@ class DBManager {
 
     /******************************* functions of tasks *******************************/
     addTask(name, type_id, callback) {
-        this.db.transaction('rw', this.db.types, this.db.tasks, function* () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
             // Make sure we have something in DB:
             if ((yield this.db.tasks.where('name').equals(name).count()) === 0) {
                 let id = yield this.db.tasks.add({
@@ -120,7 +123,7 @@ class DBManager {
     }
 
     updateTask(task, callback) {
-        this.db.transaction('rw', this.db.types, this.db.tasks, function* () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
             this.db.tasks.update(task.id, task).then(function (updated) {
                 callback(updated)
                 console.log('isUpdated:' + updated)
@@ -141,7 +144,7 @@ class DBManager {
     }
 
     getTask(id, callback) {
-        this.db.transaction('rw', this.db.tasks, this.db.types, function* () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
             let myTask = yield this.db.tasks.get(id)
             callback(myTask)
         }).catch(e => {
@@ -151,7 +154,7 @@ class DBManager {
 
     loadTasks(callback) {
         console.log('loadTasks')
-        this.db.transaction('rw', this.db.tasks, this.db.types, function () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function () {
 
             console.log('loadTasks transaction')
             this.db.tasks.each(function (task) {
@@ -165,7 +168,7 @@ class DBManager {
 
     /******************************* functions of scheduled *******************************/
     addScheduled(name_id, type_id, status, scheduled_date, callback) {
-        this.db.transaction('rw', this.db.scheduled, this.db.tasks, this.db.types, function* () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
             if ((yield this.db.scheduled.where('name_id').equals(name_id).count()) === 0) {
                 let id = yield this.db.scheduled.add({
                     name_id: name_id,
@@ -192,7 +195,7 @@ class DBManager {
     }
 
     loadScheduleds(callback) {
-        this.db.transaction('rw', this.db.tasks, this.db.types, this.db.scheduled, function () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function () {
             this.db.scheduled.each(function (scheduled) {
                 callback(scheduled)
             })
@@ -202,7 +205,7 @@ class DBManager {
     }
 
     getScheduled(id, callback) {
-        this.db.transaction('rw', this.db.completed, this.db.tasks, this.db.types, this.db.scheduled, function* () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
             let scheduled = yield this.db.scheduled.get(id)
             callback(scheduled)
         }).catch(e => {
@@ -212,7 +215,7 @@ class DBManager {
 
     /******************************* functions of completed *******************************/
     addCompleted(name_id, type_id, status, scheduled_date, completed_date, callback) {
-        this.db.transaction('rw', this.db.completed, this.db.scheduled, this.db.tasks, this.db.types, function* () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
             let id = yield this.db.completed.add({
                 name_id: name_id,
                 type_id: type_id,
@@ -230,7 +233,7 @@ class DBManager {
     }
 
     loadCompleteds(callback) {
-        this.db.transaction('rw', this.db.tasks, this.db.types, this.db.scheduled, this.db.completed, function () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function () {
             this.db.completed.each(function (completed) {
                 callback(completed)
             })
@@ -240,7 +243,7 @@ class DBManager {
     }
 
     getCompleted(id, callback) {
-        this.db.transaction('rw', this.db.completed, this.db.tasks, this.db.types, this.db.scheduled, function* () {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
             let completed = yield this.db.completed.get(id)
             callback(completed)
         }).catch(e => {
