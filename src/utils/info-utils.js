@@ -1,4 +1,4 @@
 function getVersion() {
-    var package = require("./package.json");
+    var package = require("../../package.json");
     return package.version;
 }

@@ -15,7 +15,7 @@ function loadAboutInterface() {
                 </div>
                 <div class="divider"></div>
                 <div class="detail-item">
-                    版本：V1.0.0
+                    版本：V${getVersion()}
                 </div>
                 <div class="divider"></div>
                 <div class="detail-item">
