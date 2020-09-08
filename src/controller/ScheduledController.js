@@ -176,6 +176,7 @@ function loadAddScheduledDetails(db) {
 
             <button type="button" class="btn btn-primary"
                 onclick="commitAddScheduledDetails(db)">提交</button>
+            <img src="../../res/error.svg" id="scheduled-error" style="margin: 12px; display: none;">
         </form>
     `)
     loadAddScheduledTypes(db)
@@ -200,6 +201,8 @@ function commitAddScheduledDetails(db) {
                     })
                 })
             })
+        } else {
+            $('#scheduled-error').css("display", "")
         }
     })
 }
