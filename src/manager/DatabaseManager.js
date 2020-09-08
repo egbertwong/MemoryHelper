@@ -173,7 +173,7 @@ class DBManager {
                 let id = yield this.db.scheduled.add({
                     name_id: name_id,
                     type_id: type_id,
-                    status: status,
+                    status: parseInt(status),
                     scheduled_date: scheduled_date
                 });
                 let myScheduled = yield this.db.scheduled.get(id)

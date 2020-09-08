@@ -187,8 +187,6 @@ function commitAddScheduledDetails(db) {
     status = parseInt($('#add-scheduled-status').val())
     scheduled_date = $('#add-scheduled-date').val()
 
-    status = parseInt(status)
-
     db.addScheduled(name_id, type_id, status, scheduled_date, (scheduled) => {
         if (scheduled != null) {
             let cur_type = parseInt($('#scheduled-filter').val())
