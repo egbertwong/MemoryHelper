@@ -137,16 +137,51 @@ function loadTodayItemDetails(db, id) {
     })
 }
 
-function chooseTodayItem(id) {
-
-}
-
 /**
  * Remove the finishing task from page and move task in the database.
  * @param {int} id Id of the task
  */
-function finishTodayItem(id) {
-    console.log(id)
+function finishTodayItem(db, id, dom) {
+    // 查询 id
+    // 写入完成表
+    // 从计划表删除
+    db.getScheduled(id, (scheduled) => {
+        completed_date = getDateStr(new Date())
+        db.addCompleted(
+            scheduled.name_id,
+            scheduled.type_id,
+            parseInt(scheduled.status),
+            scheduled.scheduled_date,
+            completed_date,
+            (completed) => {
+                if (completed != null) {
+                    console.log('addComepeted callback')
+                    db.getTask(completed.name_id, (task) => {
+                        task.status = completed.status
+                        if (completed.status == 1) {
+                            task.first_date = completed.completed_date
+                        }
+                        task.last_date = completed.completed_date
+                        if (completed.delay_days > 0) {
+                            task.delayed_times = task.delayed_times ? task.delayed_times + 1 : 1
+                        }
+
+                        task.complete_times = task.complete_times ? task.complete_times + 1 : 1
+
+                        task.next_date = ''
+                        db.updateTask(task, (task) => {
+                            console.log('task:' + task.name)
+                        })
+                        // db.updateTask(task, (newTask) => {
+                        //     console.log('isUpdated:' + JSON.stringify(newTask))
+                        // })
+                    })
+                    // 拿到父节点:
+                    $(dom).parent().remove();
+                }
+            })
+        db.deleteScheduled(scheduled.id)
+    })
 }
 
 function hideTodayItemDetails() {
