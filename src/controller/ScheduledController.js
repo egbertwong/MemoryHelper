@@ -334,7 +334,27 @@ function loadEditScheduledDetails(db, id, index) {
 }
 
 function commitEditScheduledDetails(db, id, index) {
+    index = parseInt(index)
+    id = parseInt(id)
+    date = $('#edit-scheduled-date').val()
 
+    if (date == null) {
+        return
+    }
+
+    db.getScheduled(id, (scheduled) => {
+        if (date != null) {
+            scheduled.scheduled_date = date
+        }
+
+        db.updateScheduled(scheduled, (updated) => {
+            if (updated) {
+                loadScheduledItemDetails(db, id, null, index)
+            } else {
+                $('#scheduled-error').css("display", "")
+            }
+        })
+    })
 }
 
 function commitDeleteScheduledDetails(db, id, index) {
