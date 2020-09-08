@@ -264,7 +264,7 @@ function loadScheduledItemDetails(db, id, dom, index) {
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="commitDeleteScheduledDetails(db, ${task.id}, ${index})">删除</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="commitDeleteScheduledDetails(db, ${scheduled.id}, ${index})">删除</button>
                       </div>
                     </div>
                   </div>
@@ -358,7 +358,14 @@ function commitEditScheduledDetails(db, id, index) {
 }
 
 function commitDeleteScheduledDetails(db, id, index) {
-
+    db.deleteScheduled(id, (updated) => {
+        if (updated) {
+            $('#scheduled-list li').eq(index).remove()
+            $('#scheduled-details').css("display", "none")
+        } else {
+            $('#deleteScheduledFail').modal('show')
+        }
+    })
 }
 
 function finishScheduledItem(db, id, dom) {

@@ -57,7 +57,7 @@ class DBManager {
     updateTypes(id, newName, callback) {
         id = parseInt(id)
 
-        this.db.types.update(id, {name: newName}).then((updated) =>{
+        this.db.types.update(id, { name: newName }).then((updated) => {
             callback(updated)
         }).catch(e => {
             console.error(e.stack);
@@ -67,7 +67,7 @@ class DBManager {
     inValidTypes(id, callback) {
         id = parseInt(id)
 
-        this.db.types.update(id, {inValid: 0}).then((updated) =>{
+        this.db.types.update(id, { inValid: 0 }).then((updated) => {
             callback(updated)
         }).catch(e => {
             console.error(e.stack);
@@ -203,6 +203,14 @@ class DBManager {
         id = parseInt(id)
 
         this.db.scheduled.where('id').equals(id).delete()
+            .then(function (deleteCount) {
+                console.log("Deleted " + deleteCount + " objects");
+                if (deleteCount > 0) {
+                    callback(true)
+                } else {
+                    callback(false)
+                }
+            });
     }
 
     loadScheduleds(callback) {
