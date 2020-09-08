@@ -187,6 +187,17 @@ class DBManager {
         });
     }
 
+    updateScheduled(scheduled, callback) {
+        this.db.transaction('rw', this.db.types, this.db.tasks, this.db.scheduled, this.db.completed, function* () {
+            this.db.scheduled.update(scheduled.id, scheduled).then(function (updated) {
+                callback(updated)
+                console.log('isUpdated:' + updated)
+            })
+        }).catch(e => {
+            console.error(e.stack);
+        });
+    }
+
     deleteScheduled(id, callback) {
         console.log('deleta id:' + id)
         id = parseInt(id)
