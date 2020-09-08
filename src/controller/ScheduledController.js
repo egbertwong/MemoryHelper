@@ -299,7 +299,38 @@ function loadScheduledItemDetails(db, id, dom, index) {
 }
 
 function loadEditScheduledDetails(db, id, index) {
+    $('#scheduled-details').css("display", "")
+    $('#scheduled-detail-content').html(``)
+    db.getScheduled(id, (scheduled) => {
+        db.getTask(scheduled.name_id, (task) => {
+            if (task.id != null) {
+                $('#scheduled-details-title').html(`
+                    ${task.name}
+                    <span class="badge badge-status">${getStatusById(task.status)}</span>
+                `)
+                db.queryType(scheduled.type_id, (type) => {
+                    if (type.name != null) {
+                        $('#scheduled-details-title').append(`<span class="badge badge-type">${type.name}</span>`)
+                    }
+                })
 
+                $('#scheduled-detail-content').html(`
+                    <form style="margin: 8px;">
+
+                        <div class="form-group">
+                            <label for="edit-scheduled-date">计划日期</label>
+                            <input class="form-control" id="edit-scheduled-date"
+                                type="date" value="${scheduled.scheduled_date}">
+                        </div>
+
+                        <button type="button" class="btn btn-primary"
+                            onclick="commitEditScheduledDetails(db, ${id}, ${index})">提交</button>
+                        <img src="../../res/error.svg" id="scheduled-error" style="margin: 12px; display: none;">
+                    </form>
+                `)
+            }
+        })
+    })
 }
 
 function commitEditScheduledDetails(db, id, index) {
