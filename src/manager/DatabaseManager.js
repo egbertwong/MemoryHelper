@@ -159,6 +159,9 @@ class DBManager {
             console.log('loadTasks transaction')
             this.db.tasks.each(function (task) {
                 console.log('loadTasks each')
+                if (task.inValid == 0) {
+                    return;
+                }
                 callback(task)
             })
         }).catch(e => {
